@@ -1,0 +1,39 @@
+{
+  "name": "astro-decap-collection",
+  "version": "0.0.1",
+  "description": "Derive Astro collection schemata from Decap configs.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "astro-decap-collection": "dist/cli.js",
+    "adc": "dist/cli.js"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "tsc -p tsconfig.build.json --watch",
+    "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules\" NODE_NO_WARNINGS=1 jest",
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "peerDependencies": {
+    "astro": "^4.0.0",
+    "zod": "^3.20.0"
+  },
+  "optionalDependencies": {
+    "prettier": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "29.5.13",
+    "@types/node": "20.16.10",
+    "astro": "4.16.6",
+    "common-tags": "1.8.2",
+    "cross-env": "7.0.3",
+    "decap-cms-core": "3.4.2",
+    "jest": "29.7.0",
+    "prettier": "3.3.3",
+    "ts-jest": "29.2.5",
+    "ts-node": "10.9.2",
+    "typescript": "5.6.3",
+    "zod": "3.23.8"
+  }
+}
