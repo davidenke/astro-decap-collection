@@ -5,6 +5,8 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills';
 // Vite configuration
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
+  // ensure relative asset paths in index.html file
+  base: './',
   plugins: [
     // add type check directly to vite
     // checker({ typescript: true, overlay: false }),
