@@ -11,7 +11,7 @@ export default eslintTs.config(
   ...eslintTs.configs.recommended,
   eslintPluginPrettierRecommended,
   {
-    ignores: ['**/node_modules/', '**/dist/'],
+    ignores: ['node_modules/', 'dist/', 'lib/'],
   },
   {
     plugins: {

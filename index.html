@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"
+    />
+    <title>Astro Decap Collection Demo</title>
+    <link rel="stylesheet" href="./src/demo/demo.css" />
+
+    <script type="module" src="./src/demo/demo.ts"></script>
+    <script type="module" src="./src/index.ts"></script>
+  </head>
+  <body>
+    <button onclick="window.handleExample(event)">Example</button>
+    <textarea oninput="window.handleInput(event)" placeholder="Paste your Decap config.yml here">
+    </textarea>
+    <pre id="config"><code data-label="0"></code></pre>
+    <pre id="schema"><code data-label="none"></code></pre>
+  </body>
+</html>

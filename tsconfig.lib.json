@@ -2,8 +2,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "declaration": true,
-    "outDir": "dist"
+    "outDir": "lib"
   },
-  "exclude": ["**/*.spec.ts"],
+  "exclude": ["**/*.spec.ts", "src/demo"],
   "include": ["src/**/*.ts"]
 }

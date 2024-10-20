@@ -1,0 +1,66 @@
+body {
+  display: flex;
+  flex-flow: row nowrap;
+  box-sizing: border-box;
+  height: 100svh;
+  margin: 0;
+  padding: 10px;
+  gap: 10px;
+}
+
+button {
+  position: fixed;
+  inset: auto auto 20px 20px;
+}
+
+textarea,
+pre {
+  flex: 1 1 0;
+  width: 0;
+  margin: 0;
+  border: 0;
+  resize: none;
+}
+
+textarea,
+pre > code {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+pre {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 10px;
+
+  > code {
+    flex: 1 1 0;
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    max-height: 100%;
+    padding: 10px;
+    overflow: hidden;
+    overflow-y: auto;
+
+    &::after {
+      content: attr(data-label);
+      position: absolute;
+      inset: 10px 10px auto auto;
+      padding: 3px 5px;
+      border-radius: 3px;
+      background: #ccc;
+    }
+  }
+}
+
+@media (orientation: portrait) {
+  body {
+    flex-direction: column;
+  }
+
+  pre {
+    flex-direction: row;
+  }
+}

@@ -16,19 +16,21 @@
     "collection",
     "schema"
   ],
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
+  "main": "lib/index.js",
+  "module": "lib/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "astro-decap-collection": "dist/cli.js",
-    "adc": "dist/cli.js"
+    "astro-decap-collection": "lib/cli.js",
+    "adc": "lib/cli.js"
   },
   "type": "module",
   "scripts": {
     "lint": "eslint",
     "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules\" NODE_NO_WARNINGS=1 jest",
-    "dev": "tsc -p tsconfig.build.json --watch",
-    "build": "tsc -p tsconfig.build.json"
+    "dev": "vite dev",
+    "build:lib": "tsc -p tsconfig.lib.json",
+    "build:demo": "vite build",
+    "build": "run-p -lns build:*"
   },
   "peerDependencies": {
     "astro": "^4.0.0",
@@ -55,11 +57,14 @@
     "eslint-plugin-unused-imports": "4.1.4",
     "jest": "29.7.0",
     "jest-junit": "16.0.0",
+    "npm-run-all": "4.1.5",
     "prettier": "3.3.3",
     "ts-jest": "29.2.5",
     "ts-node": "10.9.2",
     "typescript": "5.6.3",
     "typescript-eslint": "8.10.0",
+    "vite": "5.4.9",
+    "vite-plugin-node-polyfills": "0.22.0",
     "zod": "3.23.8"
   }
 }
