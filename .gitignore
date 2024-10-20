@@ -10,6 +10,7 @@ node_modules
 .DS_Store
 dist
 tmp
+junit.xml
 
 .vscode/*
 !.vscode/extensions.json
