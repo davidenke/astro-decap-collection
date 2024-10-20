@@ -18,7 +18,7 @@
   ],
   "main": "lib/index.js",
   "module": "lib/index.js",
-  "types": "dist/index.d.ts",
+  "types": "lib/index.d.ts",
   "bin": {
     "astro-decap-collection": "lib/cli.js",
     "adc": "lib/cli.js"
