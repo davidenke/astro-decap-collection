@@ -11,8 +11,9 @@
   },
   "type": "module",
   "scripts": {
-    "dev": "tsc -p tsconfig.build.json --watch",
+    "lint": "eslint",
     "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules\" NODE_NO_WARNINGS=1 jest",
+    "dev": "tsc -p tsconfig.build.json --watch",
     "build": "tsc -p tsconfig.build.json"
   },
   "peerDependencies": {
@@ -23,17 +24,28 @@
     "prettier": "^3.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "9.13.0",
+    "@types/eslint__js": "8.42.3",
     "@types/jest": "29.5.13",
     "@types/node": "20.16.10",
+    "@typescript-eslint/eslint-plugin": "8.10.0",
+    "@typescript-eslint/parser": "8.10.0",
     "astro": "4.16.6",
     "common-tags": "1.8.2",
     "cross-env": "7.0.3",
     "decap-cms-core": "3.4.2",
+    "eslint": "9.13.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-prettier": "5.2.1",
+    "eslint-plugin-simple-import-sort": "12.1.1",
+    "eslint-plugin-unused-imports": "4.1.4",
     "jest": "29.7.0",
+    "jest-junit": "16.0.0",
     "prettier": "3.3.3",
     "ts-jest": "29.2.5",
     "ts-node": "10.9.2",
     "typescript": "5.6.3",
+    "typescript-eslint": "8.10.0",
     "zod": "3.23.8"
   }
 }

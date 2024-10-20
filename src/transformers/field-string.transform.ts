@@ -1,5 +1,6 @@
 import type { CmsFieldBase, CmsFieldColor, CmsFieldStringOrText } from 'decap-cms-core';
 import type { ZodString } from 'zod';
+
 import type { Transformer } from '../utils/transform.utils.js';
 
 // https://decapcms.org/docs/widgets/#color

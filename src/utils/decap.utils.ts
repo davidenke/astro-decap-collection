@@ -1,5 +1,6 @@
 import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
+
 import type { CmsCollection, CmsConfig } from 'decap-cms-core';
 
 // TODO use the CmsField['widget'] type from decap-cms-core but exclude the generic string somehow

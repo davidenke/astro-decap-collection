@@ -1,5 +1,6 @@
 import type { CmsFieldBase, CmsFieldSelect } from 'decap-cms-core';
 import type { ZodEnum } from 'zod';
+
 import type { Transformer } from '../utils/transform.utils.js';
 
 // https://decapcms.org/docs/widgets/#select

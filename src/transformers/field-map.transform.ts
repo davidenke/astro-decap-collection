@@ -1,5 +1,6 @@
 import type { CmsFieldBase, CmsFieldMap } from 'decap-cms-core';
 import type { ZodString } from 'zod';
+
 import type { Transformer } from '../utils/transform.utils.js';
 
 // TODO handle the parsed result of '{"type":"Point","coordinates":[13.74717,51.0544007]}'

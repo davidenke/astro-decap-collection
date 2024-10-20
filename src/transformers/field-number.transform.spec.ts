@@ -1,5 +1,6 @@
 import type { CmsFieldBase, CmsFieldNumber } from 'decap-cms-core';
 import z from 'zod';
+
 import { transformNumberField } from './field-number.transform.js';
 
 describe('field-number.transform', () => {

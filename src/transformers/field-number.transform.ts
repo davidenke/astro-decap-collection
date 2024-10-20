@@ -1,5 +1,6 @@
 import type { CmsFieldBase, CmsFieldNumber } from 'decap-cms-core';
 import type { ZodNumber } from 'zod';
+
 import type { Transformer } from '../utils/transform.utils.js';
 
 // https://decapcms.org/docs/widgets/#number

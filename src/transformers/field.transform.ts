@@ -3,7 +3,6 @@ import type * as Zod from 'zod';
 
 import type { DecapWidgetType } from '../utils/decap.utils.js';
 import type { Transformer, TransformResult } from '../utils/transform.utils.js';
-
 import { transformBooleanField } from './field-boolean.transform.js';
 import { transformCodeField } from './field-code.transform.js';
 import { transformDateTimeField } from './field-date-time.transform.js';
@@ -83,6 +82,7 @@ export const transformField: Transformer = (field, z) => {
       break;
 
     default:
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions, @typescript-eslint/no-unused-vars
       (_exhaustiveCheck: never = knownWidgets) => null;
       ({ runtime, cptime } = transformNeverField(field, z));
       break;

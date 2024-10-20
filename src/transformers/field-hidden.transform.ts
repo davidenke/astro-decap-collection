@@ -1,4 +1,5 @@
 import type { CmsFieldBase, CmsFieldHidden } from 'decap-cms-core';
+
 import type { Transformer } from '../utils/transform.utils.js';
 
 // https://decapcms.org/docs/widgets/#hidden

@@ -1,4 +1,5 @@
 import { fileURLToPath } from 'node:url';
+
 import { loadDecapConfig } from './decap.utils.js';
 
 describe('decap.utils', () => {
