@@ -13,7 +13,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: false
 
 jobs:
@@ -23,17 +23,17 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version-file: ".nvmrc"
-          cache: "npm"
+          node-version-file: .nvmrc
+          cache: npm
       - run: npm ci
       - run: npm run lint
       - run: npm run test -- --ci --reporters=default --reporters=jest-junit
       - uses: mikepenz/action-junit-report@v4
         if: success() || failure()
         with:
-          check_name: "report"
+          check_name: report
           include_passed: true
-          report_paths: "junit.xml"
+          report_paths: junit.xml
 
   build:
     needs: test
@@ -42,14 +42,19 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version-file: ".nvmrc"
-          cache: "npm"
+          node-version-file: .nvmrc
+          cache: npm
       - run: npm ci
       - run: npm run build
-      - uses: actions/upload-artifact@v4
-        if: success() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+      - if: success() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4
         with:
-          name: latest
+          name: latest-lib
+          path: lib
+      - if: success() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: latest-dist
           path: dist
 
   deploy:
@@ -68,11 +73,11 @@ jobs:
       - uses: actions/configure-pages@v4
       - uses: actions/download-artifact@v4
         with:
-          name: latest
+          name: latest-dist
           path: dist
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: "dist"
+          path: dist
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
@@ -90,13 +95,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version-file: ".nvmrc"
-          cache: "npm"
+          node-version-file: .nvmrc
+          cache: npm
           registry-url: https://registry.npmjs.org/
       - uses: actions/download-artifact@v4
         with:
-          name: latest
-          path: dist
+          name: latest-lib
+          path: lib
 
       - run: |
           git config user.email "${{ vars.NPM_EMAIL }}"
