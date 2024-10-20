@@ -1,5 +1,12 @@
 # Astro Decap Collection
 
+## 0.0.5 (2024-10-20)
+
+
+### Bug Fixes
+
+* path to types ([4f99b25](https://github.com/davidenke/astro-decap-collection/commit/4f99b25a91e1315aee0d13c7bc05dec5d33b070c))
+
 ## 0.0.4 (2024-10-20)
 
 
