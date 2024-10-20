@@ -12,13 +12,14 @@ export async function loadPrettier(): Promise<typeof Prettier | undefined> {
 }
 
 // format code using prettier if available
-export async function formatCode(
-  code: string,
-  parser: Prettier.BuiltInParserName = 'typescript',
-  target?: string,
-): Promise<string> {
+export async function formatCode(code: string, target?: string): Promise<string> {
   const prettier = await loadPrettier();
-  if (prettier === undefined) return code;
-  const options = await prettier.resolveConfig(target);
-  return prettier.format(code, { ...options, parser });
+  if (!('default' in prettier)) return code;
+  const options = (await prettier.resolveConfig?.(target)) ?? {};
+  const imports = await Promise.all([
+    import('prettier/plugins/estree'),
+    import('prettier/plugins/typescript'),
+  ]);
+  const plugins = imports.map(i => i.default);
+  return prettier.format(code, { ...options, parser: 'typescript', plugins });
 }
