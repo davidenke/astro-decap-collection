@@ -1,16 +1,64 @@
 # Astro Decap Collection
 
-Derive Astro collection schemata from Decap configs.
+Derive [Astro content collection](https://docs.astro.build/en/guides/content-collections/) schemata from [Decap collection configs](https://decapcms.org/docs/configuration-options/#collections).
 
-## Local development
+The procedure is to transform a Decap config into a [Zod schema](https://zod.dev/?id=basic-usage) by mapping the [Decap widget fields](https://decapcms.org/docs/widgets/) with custom [transformers](./src/transformers/).
 
-Run a local tsx compiler in watch mode
+## Usage
+
+This module can either be used as a CLI tool or as a programmatic library.
+
+| cli                                                         | programmatic                                                        |
+| ----------------------------------------------------------- | ------------------------------------------------------------------- |
+| 1. Run cli tool to generate the zod schema                  | 1. Load or import your Decap config file manually                   |
+| 2. Load the generated schema in the Astro collection config | 2. Transform Decap config into zod schema                           |
+|                                                             | 3. Provide the zod schema at runtime in the Astro collection config |
+
+### Cli usage
+
+Transform the Decap config at build time and use the generated Zod schema. This allows Astro to validate the given data and provides types as well.
+
+> This is the recommended way to use this module.
+
+| Option           | Description                                     |
+| ---------------- | ----------------------------------------------- |
+| `--config`, `-c` | Path to the Decap YML config file               |
+| `--target`, `-t` | Path to the Astro content directory to write to |
+
+_The name of the target file will be `config.<collection>.ts`, using the collection name from the Decap config._
 
 ```bash
-npx tsx watch ./src/cli.ts -c ../website/public/admin/config.yml -t ../website/src/content
+# astro-decap-collection, adc - Binary name
+# --config, -c - Decap YML config file path to read from
+# --target, -t - Astro content directory path to write to
+
+# full command:
+astro-decap-collection --config ./public/admin/config.yml --target ./src/content
+# or shorthand:
+adc -c ./public/admin/config.yml -t ./src/content
 ```
 
-## Validation only (runtime)
+> The cli command should be run at least before every `astro build`.
+
+Then, the generated schema can be used in the [Astro collection config](https://docs.astro.build/en/guides/content-collections/#defining-collections).
+
+```typescript
+import { defineCollection } from 'astro:content';
+import { prepareSchema } from 'astro-decap-collection';
+
+// grab generated schema
+import { schema } from './config.blog.ts';
+
+// define the collection
+// https://docs.astro.build/en/guides/content-collections/#defining-collections
+export const collections = {
+  blog: defineCollection(prepareSchema(schema)),
+  // ... or without the convenience wrapper
+  blog: defineCollection({ type: 'content', schema }),
+};
+```
+
+### Programmatic usage
 
 This wont get you types, but you can still validate content against the schema.
 
@@ -35,26 +83,10 @@ export const collections = {
 };
 ```
 
-## Types and validation (preferred)
+## Local development
 
-Transform the Decap config at build time and use the generated Zod schema.
+Run a local tsx compiler in watch mode
 
 ```bash
-# astrodecap-collection, adc - Binary name
-# --config, -c - Decap YML config file path to read from
-# --target, -t - Astro content directory path to write to
-adc -c ./public/admin/config.yml -t ./src/content
-```
-
-```typescript
-import { defineCollection } from 'astro:content';
-import { prepareSchema } from 'astro-decap-collection'; // wraps schema and adds content type
-
-import { schema as blogSchema } from './config.blog.ts'; // <-- generated from Decap before
-import { schema as pageSchema } from './config.pages.ts'; // <-- generated from Decap before
-
-export const collections = {
-  blog: defineCollection(prepareSchema(blogSchema)),
-  pages: defineCollection(prepareSchema(pageSchema)),
-};
+npx tsx watch ./src/cli.ts -c ../website/public/admin/config.yml -t ../website/src/content
 ```
