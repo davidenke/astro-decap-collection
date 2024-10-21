@@ -1,5 +1,12 @@
 # Astro Decap Collection
 
+## 0.0.8 (2024-10-21)
+
+
+### Bug Fixes
+
+* **demo:** layout ([39474a8](https://github.com/davidenke/astro-decap-collection/commit/39474a8e7c84cb39fc450fdc4f16710b05267ddf))
+
 ## 0.0.7 (2024-10-21)
 
 ## 0.0.6 (2024-10-21)
