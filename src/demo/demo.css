@@ -39,10 +39,10 @@ header {
     grid-area: nav;
     display: flex;
     flex-flow: row nowrap;
-    gap: 5px;
+    gap: 10px;
 
     img {
-      height: 1.5em;
+      height: 2em;
     }
   }
 }
