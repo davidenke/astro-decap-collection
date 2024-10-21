@@ -1,5 +1,12 @@
 # Astro Decap Collection
 
+# 0.1.0 (2024-10-21)
+
+
+### Features
+
+* **demo:** convert in browser ([eeda560](https://github.com/davidenke/astro-decap-collection/commit/eeda560eb126006fe9843b01c17a719682ae0dc8))
+
 ## 0.0.8 (2024-10-21)
 
 
