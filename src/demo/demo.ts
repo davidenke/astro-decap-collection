@@ -56,7 +56,7 @@ window.handleInput = async event => {
   const schemas = await Promise.all(
     collections.map(async collection => {
       const { cptime } = transformCollection(collection, { zod });
-      return [collection.name, await formatCode(cptime)];
+      return [collection.name, await formatCode(cptime, undefined, { printWidth: 50 })];
     }),
   );
   window.updatePreview(JSON.stringify(collections, null, 2), Object.fromEntries(schemas));
