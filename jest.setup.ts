@@ -14,7 +14,9 @@ globalThis.serializeShape = global.serializeShape = function (type) {
 };
 
 globalThis.transpileFrom = global.transpileFrom = function (source) {
-  const { outputText } = transpileModule(source, tsConfig as unknown as TranspileOptions);
+  // remove strict mode for inline transpilation, as it would add `use strict` to the output
+  const options = { ...tsConfig, compilerOptions: { ...tsConfig.compilerOptions, strict: false } };
+  const { outputText } = transpileModule(source, options as unknown as TranspileOptions);
   return outputText;
 };
 
