@@ -52,6 +52,7 @@ main {
   display: flex;
   flex-flow: row nowrap;
   gap: 10px;
+  height: 0;
 
   @media (orientation: portrait) {
     flex-direction: column;
@@ -80,6 +81,7 @@ fieldset {
   position: relative;
   box-sizing: border-box;
   flex: 1 1 0;
+  overflow: hidden;
 
   height: 100%;
   width: 0;
@@ -168,10 +170,28 @@ code {
 }
 
 #input {
-  position: relative;
+  pre,
+  textarea {
+    white-space: pre;
+  }
 
   pre {
-    white-space: pre-wrap;
+    display: block;
+    height: 100%;
+    width: 100%;
+
+    overflow: hidden;
+    overflow-y: auto;
+
+    border: 1px solid #ccc;
+    border-radius: 6px;
+
+    > code {
+      flex: 0;
+      display: block;
+      max-height: none;
+      border: 0;
+    }
   }
 
   textarea {
@@ -193,7 +213,7 @@ code {
 
   nav {
     position: absolute;
-    inset: auto auto 10px 10px;
+    inset: auto 10px 10px auto;
     z-index: 2;
 
     display: flex;
