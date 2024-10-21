@@ -33,7 +33,7 @@ export async function loadDecapConfig(ymlPath: string): Promise<CmsConfig> {
   return parseConfig(configRaw);
 }
 
-export async function parseConfig(ymlData: string): Promise<CmsConfig> {
+export async function parseConfig(ymlData: string): Promise<CmsConfig | undefined> {
   // in order to use the config utils from Decap CMS in Node,
   // we need to mock some globals first
   if (!('window' in globalThis)) {
@@ -57,7 +57,9 @@ export async function parseConfig(ymlData: string): Promise<CmsConfig> {
     'decap-cms-core/dist/esm/actions/config.js'
   );
 
-  return normalizeConfig(parseConfig(ymlData));
+  const parsedConfig = parseConfig(ymlData) ?? undefined;
+  if (parsedConfig) return normalizeConfig(parsedConfig);
+  return undefined;
 }
 
 export function getCollection(config: CmsConfig, name: string): CmsCollection | undefined {
