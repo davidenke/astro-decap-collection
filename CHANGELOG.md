@@ -1,5 +1,12 @@
 # Astro Decap Collection
 
+## 0.1.1 (2024-10-21)
+
+
+### Bug Fixes
+
+* **demo:** limit schema width ([3e9fcd2](https://github.com/davidenke/astro-decap-collection/commit/3e9fcd2bc61f6e0ece68352aaedf0bf9347b866f))
+
 # 0.1.0 (2024-10-21)
 
 

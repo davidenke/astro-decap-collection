@@ -1,6 +1,6 @@
 {
   "name": "astro-decap-collection",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "description": "Derive Astro collection schemata from Decap configs.",
   "author": {
