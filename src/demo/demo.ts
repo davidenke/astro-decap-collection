@@ -7,7 +7,7 @@ import { transformCollection } from '../utils/transform.utils.js';
 declare global {
   interface Window {
     global: Window;
-    handleExample(event: MouseEvent): void;
+    loadExample(path: string): void;
     handleInput(event: InputEvent): Promise<void>;
     updatePreview(config: string, schemas: Record<string, string>): void;
   }
@@ -15,25 +15,11 @@ declare global {
 
 window.global ||= window;
 
-window.handleExample = () => {
+// loads an example from the `examples` folder
+window.loadExample = async (path: string) => {
   const input = document.querySelector('textarea');
-  input.value = `collections:
-  - name: "blog" # Used in routes, e.g., /admin/collections/blog
-    label: "Blog" # Used in the UI
-    folder: "packages/website/src/content/blog" # The path to the folder where the documents are stored
-    create: true # Allow users to create new documents in this collection
-    fields: # The fields for each document, usually in frontmatter
-      - { label: "Layout", name: "layout", widget: "hidden", default: "blog" }
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Published", name: "published", widget: "boolean", required: false }
-      - { label: 'Color' , name: 'color', widget: 'color', enableAlpha: true }
-      - { label: 'Place' , name: 'place', widget: 'map' }
-      - { label: "Publish Date", name: "date", widget: "datetime" }
-      - { label: "Featured Image(s)", name: "thumbnail", widget: "image" }
-      - { label: "Rating (scale of 1-5)", name: "rating", widget: "number", max: 5 }
-      - { label: "Code", name: "code", widget: "code", output_code_only: true }
-      - { label: "Body", name: "body", widget: "markdown" }
-`;
+  const example = await fetch(path);
+  input.value = await example.text();
   input.dispatchEvent(new InputEvent('input'));
 };
 

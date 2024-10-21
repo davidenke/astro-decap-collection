@@ -10,7 +10,7 @@ describe('decap.utils', () => {
     });
 
     it('should return a valid config object', async () => {
-      const path = fileURLToPath(new URL('../../mocks/config.yml', import.meta.url));
+      const path = fileURLToPath(new URL('../../public/examples/blog.yml', import.meta.url));
       const config = await loadDecapConfig(path);
 
       expect(config).toBeDefined();

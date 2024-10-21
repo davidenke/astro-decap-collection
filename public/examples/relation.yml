@@ -1,0 +1,39 @@
+locale: "de"
+
+backend:
+  name: git-gateway
+  branch: main
+
+publish_mode: editorial_workflow
+
+media_folder: "/public/media"
+public_folder: "/public/media"
+
+collections:
+  - name: categories
+    label: Categories
+    folder: "src/content/categories"
+    create: true
+    fields:
+      - name: name
+        label: Name
+        widget: string
+      - name: tags
+        label: Tags
+        widget: relation
+        collection: "tags"
+        search_fields: ["label"]
+        value_field: "{{slug}}"
+        display_fields: ["{{label}} - {{color}}"]
+        multiple: true
+  - name: tags
+    label: Tags
+    folder: "src/content/tags"
+    create: true
+    fields:
+      - name: label
+        label: Label
+        widget: string
+      - name: color
+        label: Color
+        widget: color
