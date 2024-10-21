@@ -1,12 +1,15 @@
 <a href="https://www.npmjs.com/package/astro-decap-collection"><img src="https://img.shields.io/npm/v/astro-decap-collection?style=for-the-badge&label=npm%20%40latest&logo=npm" alt="NPM version"/></a>
-<a href="https://github.com/davidenke/astro-decap-collection/actions/workflows/main.yml"><img src="https://img.shields.io/github/actions/workflow/status/davidenke/astro-decap-collection/main.yml?style=for-the-badge&label=tests%20%2B%20build&logo=github" alt="Test and build status"/></a>
+<a href="https://github.com/davidenke/astro-decap-collection/actions/workflows/main.yml"><img src="https://img.shields.io/github/actions/workflow/status/davidenke/astro-decap-collection/main.yml?style=for-the-badge&label=tests%20%2B%20build&logo=github&logoColor=white" alt="Test and build status"/></a>
 <a href="https://github.com/davidenke/astro-decap-collection"><img src="https://img.shields.io/badge/github-sources-blue?style=for-the-badge&logo=github" alt="Test and build status"/></a>
+<a href="https://davidenke.github.io/astro-decap-collection"><img src="https://img.shields.io/badge/demo-app-yellow?style=for-the-badge&logo=github&logoSize=50px" alt="Demo app"/></a>
 
 # Astro Decap Collection
 
 Derive [Astro content collection](https://docs.astro.build/en/guides/content-collections/) schemata from [Decap collection configs](https://decapcms.org/docs/configuration-options/#collections).
 
 The procedure is to transform a Decap config into a [Zod schema](https://zod.dev/?id=basic-usage) by mapping the [Decap widget fields](https://decapcms.org/docs/widgets/) with custom [transformers](https://github.com/davidenke/astro-decap-collection/tree/main/src/transformers/).
+
+> A demo application using the transforms to convert in the browser can be [found here](https://davidenke.github.io/astro-decap-collection).
 
 ## Installation
 
