@@ -69,14 +69,14 @@ window.updateInput = event => {
 // update the preview code with the config and schemas
 window.updatePreview = (config, schemas) => {
   const configPreview = document.querySelector<HTMLElement>('#config code')!;
-  configPreview.dataset.label = `count: ${Object.entries(schemas).length}`;
+  configPreview.parentElement!.dataset.label = `count: ${Object.entries(schemas).length}`;
   configPreview.innerHTML = hljs.highlight(config, { language: 'json' }).value;
 
   const schemaPreview = document.querySelector('#schemas pre')!;
   schemaPreview.innerHTML = Object.entries(schemas)
     .map(
       ([name, schema]) =>
-        `<code data-label="${name}">${hljs.highlight(schema, { language: 'ts' }).value}</code>`,
+        `<div data-label="${name}"><code>${hljs.highlight(schema, { language: 'ts' }).value}</code></div>`,
     )
     .join('\n\n');
 };
@@ -84,9 +84,9 @@ window.updatePreview = (config, schemas) => {
 // clear the code previews
 window.clearPreview = () => {
   const configPreview = document.querySelector<HTMLElement>('#config code')!;
-  delete configPreview.dataset.label;
+  delete configPreview.parentElement!.dataset.label;
   configPreview.innerHTML = '';
 
   const schemaPreview = document.querySelector('#schemas pre')!;
-  schemaPreview.innerHTML = '<code></code>';
+  schemaPreview.innerHTML = '<div><code></code></div>';
 };

@@ -118,6 +118,8 @@ legend {
 }
 
 #input > div,
+pre > div,
+code,
 textarea,
 pre {
   height: 100%;
@@ -132,7 +134,7 @@ pre {
 }
 
 textarea,
-pre > code {
+code {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -148,7 +150,7 @@ pre {
     flex-direction: row;
   }
 
-  > code {
+  code {
     flex: 1 1 0;
     display: block;
     box-sizing: border-box;
@@ -158,16 +160,18 @@ pre {
   }
 }
 
-code {
+[data-label] {
   position: relative;
 
-  &[data-label]::after {
+  &::before {
     content: attr(data-label);
     position: absolute;
-    inset: 3px 3px auto auto;
+    inset: 4px 4px auto auto;
     padding: 3px 5px;
+
     border-radius: 3px;
     background: #ccc;
+    pointer-events: none;
   }
 }
 
@@ -194,7 +198,7 @@ code {
     border: 1px solid #ccc;
     border-radius: 6px;
 
-    > code {
+    code {
       flex: 0;
       display: block;
       max-height: none;
