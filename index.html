@@ -14,7 +14,7 @@
     <script type="module" src="./src/demo/demo.ts"></script>
     <script type="module" src="./src/index.ts"></script>
   </head>
-  <body>
+  <body onload="window.handleLoad()">
     <header>
       <h1>Astro Decap Collection Demo</h1>
       <p>
@@ -66,8 +66,12 @@
           ></textarea>
         </div>
         <nav>
-          <button onclick="window.loadExample('./examples/blog.yml')">Blog example</button>
-          <button onclick="window.loadExample('./examples/relation.yml')">Relation example</button>
+          <button data-example="./examples/blog.yml" onclick="window.handleClick(event)">
+            Blog example
+          </button>
+          <button data-example="./examples/relation.yml" onclick="window.handleClick(event)">
+            Relation example
+          </button>
         </nav>
       </fieldset>
       <fieldset id="config">
