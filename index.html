@@ -7,16 +7,77 @@
       content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"
     />
     <title>Astro Decap Collection Demo</title>
+
     <link rel="stylesheet" href="./src/demo/demo.css" />
+    <link rel="stylesheet" href="./node_modules/highlight.js/styles/atom-one-light.min.css" />
 
     <script type="module" src="./src/demo/demo.ts"></script>
     <script type="module" src="./src/index.ts"></script>
   </head>
   <body>
-    <button onclick="window.handleExample(event)">Example</button>
-    <textarea oninput="window.handleInput(event)" placeholder="Paste your Decap config.yml here">
-    </textarea>
-    <pre id="config"><code data-label="0"></code></pre>
-    <pre id="schema"><code data-label="none"></code></pre>
+    <header>
+      <h1>Astro Decap Collection Demo</h1>
+      <p>
+        This is a simple demo generator to transform Decap collections to Astro compatible Zod
+        schemata.<br />
+        For more information, please visit the
+        <a href="https://github.com/davidenke/astro-decap-collection">GitHub repository</a>.
+      </p>
+
+      <nav>
+        <a
+          href="https://astro.build/"
+          target="_blank"
+          aria-label="Go to Astro side generator documentation"
+        >
+          <img src="./node_modules/simple-icons/icons/astro.svg" alt="Astro" />
+        </a>
+        <a
+          href="https://decapcms.org/"
+          target="_blank"
+          aria-label="Go to Decap content management documentation"
+        >
+          <img src="./node_modules/simple-icons/icons/decapcms.svg" alt="Decap" />
+        </a>
+        <a
+          href="https://zod.dev/"
+          target="_blank"
+          aria-label="Go to Zod schema validation documentation"
+        >
+          <img src="./node_modules/simple-icons/icons/zod.svg" alt="Zod" />
+        </a>
+        <a
+          href="https://github.com/davidenke/astro-decap-collection"
+          aria-label="Go to GitHub repository"
+        >
+          <img src="./node_modules/simple-icons/icons/github.svg" alt="GitHub" />
+        </a>
+      </nav>
+    </header>
+    <main>
+      <fieldset id="input">
+        <legend>Decap config</legend>
+        <div>
+          <pre><code></code></pre>
+          <textarea
+            oninput="window.handleInput(event)"
+            onscroll="window.handleScroll(event)"
+            placeholder="Paste your Decap config.yml here"
+          ></textarea>
+        </div>
+        <nav>
+          <button onclick="window.loadExample('./examples/blog.yml')">Blog example</button>
+          <button onclick="window.loadExample('./examples/relation.yml')">Relation example</button>
+        </nav>
+      </fieldset>
+      <fieldset id="config">
+        <legend>Parsed config collections</legend>
+        <pre><code data-label="count: 0"></code></pre>
+      </fieldset>
+      <fieldset id="schemas">
+        <legend>Zod schemata</legend>
+        <pre><code data-label="none"></code></pre>
+      </fieldset>
+    </main>
   </body>
 </html>
