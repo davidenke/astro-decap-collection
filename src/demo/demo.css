@@ -97,12 +97,15 @@ legend,
 code::after {
   font: 0.8em/1 system-ui;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 button {
-  padding: 5px 10px;
+  padding: 10px 15px;
   border-radius: 3px;
   background: #ccc;
+
+  font-size: inherit;
   cursor: pointer;
 
   &:hover {
