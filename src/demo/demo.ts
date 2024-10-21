@@ -52,8 +52,8 @@ window.handleInput = async event => {
 };
 
 window.handleScroll = event => {
-  const { scrollTop, parentElement } = event.target as HTMLTextAreaElement;
-  parentElement!.firstElementChild!.scrollTop = scrollTop;
+  const { scrollLeft, scrollTop, parentElement } = event.target as HTMLTextAreaElement;
+  parentElement?.firstElementChild?.scrollTo(scrollLeft, scrollTop);
 };
 
 window.updateInput = event => {
@@ -61,6 +61,7 @@ window.updateInput = event => {
   const preview = document.querySelector<HTMLElement>('#input code')!;
   preview.innerHTML = hljs.highlight(input.value, { language: 'yaml' }).value;
   preview.style.height = `${input.scrollHeight}px`;
+  preview.style.width = `${input.scrollWidth}px`;
   window.handleScroll(event);
   return input.value;
 };
