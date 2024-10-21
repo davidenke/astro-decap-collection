@@ -42,7 +42,7 @@ export function transformCollection(
   // https://decapcms.org/docs/configuration-options/?#extension-and-format
   const { format = 'frontmatter' } = collection;
   if (format === 'frontmatter') {
-    collection.fields = collection.fields.filter(({ name }) => name !== 'body');
+    collection.fields = collection.fields?.filter(({ name }) => name !== 'body');
   }
 
   // we can process the collection with its fields like every other object

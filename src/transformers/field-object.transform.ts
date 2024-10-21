@@ -6,7 +6,7 @@ import { transformField } from './field.transform.js';
 
 // https://decapcms.org/docs/widgets/#object
 export const transformObjectField: Transformer<ZodObject<any>, CmsFieldBase & CmsFieldObject> = (
-  { fields },
+  { fields = [] },
   z,
 ) => {
   const results = fields.map(field => [field.name, transformField(field, z)] as const);

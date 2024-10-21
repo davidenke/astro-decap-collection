@@ -10,7 +10,7 @@ type ZodListItem = ZodObject<any> & ZodLiteral<string>;
 export const transformListField: Transformer<
   ZodArray<ZodDiscriminatedUnion<'type', ZodObject<any>[]>>,
   CmsFieldBase & CmsFieldList
-> = ({ types }, z) => {
+> = ({ types = [] }, z) => {
   const items = types.map((type): TransformResult<ZodListItem> => {
     // transform first
     const item = transformObjectField(type, z);

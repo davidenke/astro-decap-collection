@@ -14,8 +14,8 @@ export async function loadPrettier(): Promise<typeof Prettier | undefined> {
 // format code using prettier if available
 export async function formatCode(code: string, target?: string): Promise<string> {
   const prettier = await loadPrettier();
-  if (!('default' in prettier)) return code;
-  const options = (await prettier.resolveConfig?.(target)) ?? {};
+  if (!prettier) return code;
+  const options = (target && (await prettier.resolveConfig?.(target))) ?? {};
   const imports = await Promise.all([
     import('prettier/plugins/estree'),
     import('prettier/plugins/typescript'),

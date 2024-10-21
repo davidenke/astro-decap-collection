@@ -33,12 +33,12 @@ if (!target) {
 
 // read config and transform collections
 const zod = await import('zod');
-const { collections } = await loadDecapConfig(config);
+const { collections = [] } = (await loadDecapConfig(config!)) ?? {};
 await Promise.all(
   collections.map(async collection => {
     // transform collection
     const { cptime } = transformCollection(collection, { zod });
-    const path = resolve(target, `config.${collection.name}.ts`);
+    const path = resolve(target!, `config.${collection.name}.ts`);
 
     // build content and prettify if possible
     const raw = `import { z } from 'astro:content';\n\nexport const schema = ${cptime};\n`;

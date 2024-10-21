@@ -15,7 +15,7 @@ describe('decap.utils', () => {
 
       expect(config).toBeDefined();
       expect(config).toHaveProperty('collections');
-      expect(config.collections).toHaveLength(1);
+      expect(config?.collections).toHaveLength(1);
     });
   });
 });

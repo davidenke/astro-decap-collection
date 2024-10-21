@@ -19,7 +19,7 @@ export type DecapWidgetType =
   | 'string'
   | 'text';
 
-export async function loadDecapConfig(ymlPath: string): Promise<CmsConfig> {
+export async function loadDecapConfig(ymlPath: string): Promise<CmsConfig | undefined> {
   const { existsSync } = await import('node:fs');
   const { readFile } = await import('node:fs/promises');
 
@@ -39,9 +39,9 @@ export async function parseConfig(ymlData: string): Promise<CmsConfig | undefine
   if (!('window' in globalThis)) {
     (globalThis as any).__store = {};
     (globalThis as any).localStorage = {
-      getItem: (k: string): string => globalThis.__store[k],
-      setItem: (k: string, v: string) => (globalThis.__store[k] = v),
-      removeItem: (k: string) => delete globalThis.__store[k],
+      getItem: (k: string): string => (globalThis as any).__store[k],
+      setItem: (k: string, v: string) => ((globalThis as any).__store[k] = v),
+      removeItem: (k: string) => delete (globalThis as any).__store[k],
     };
     (globalThis as any).window = {
       document: { createElement: () => ({}) },
@@ -57,9 +57,11 @@ export async function parseConfig(ymlData: string): Promise<CmsConfig | undefine
     'decap-cms-core/dist/esm/actions/config.js'
   );
 
-  const parsedConfig = parseConfig(ymlData) ?? undefined;
-  if (parsedConfig) return normalizeConfig(parsedConfig);
-  return undefined;
+  try {
+    return normalizeConfig(parseConfig(ymlData) ?? {});
+  } catch (_error) {
+    return undefined;
+  }
 }
 
 export function getCollection(config: CmsConfig, name: string): CmsCollection | undefined {

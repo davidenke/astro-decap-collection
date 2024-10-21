@@ -19,9 +19,9 @@ import { transformStringField } from './field-string.transform.js';
 
 export const transformField: Transformer = (field, z) => {
   const knownWidgets = field.widget as DecapWidgetType;
-  const applyTransform = <R>(
-    field: Decap.CmsFieldBase & R,
-    transformer: Transformer,
+  const applyTransform = (
+    field: Decap.CmsField,
+    transformer: Transformer<any, any>,
     z: typeof Zod,
   ): TransformResult => transformer(field, z);
 
@@ -82,7 +82,7 @@ export const transformField: Transformer = (field, z) => {
       break;
 
     default:
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions, @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       (_exhaustiveCheck: never = knownWidgets) => null;
       ({ runtime, cptime } = transformNeverField(field, z));
       break;

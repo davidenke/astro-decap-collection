@@ -1,6 +1,7 @@
 import * as Decap from 'decap-cms-core';
 import * as z from 'zod';
 
+import type { Transformer } from '../utils/transform.utils.js';
 import { transformField } from './field.transform.js';
 
 const transformers = {
@@ -70,7 +71,7 @@ describe('field.transform', () => {
     ${'transformStringField'}   | ${'string'}   | ${z.ZodString}  | ${{}}                           | ${'for string widget'}
     ${'transformStringField'}   | ${'text'}     | ${z.ZodString}  | ${{}}                           | ${'for text widget'}
   `('$transform $descr', ({ desc, transform: fn, extras, runtype, widget }) => {
-    const transform = transformers[fn];
+    const transform = transformers[fn as keyof typeof transformers] as Transformer;
     let field: Decap.CmsField;
 
     beforeEach(() => {
