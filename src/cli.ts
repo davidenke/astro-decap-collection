@@ -71,7 +71,7 @@ export async function loadAndTransformCollections(from?: string, to?: string, is
       // inform user
       const action = isUpdate ? 'updated at' : 'written to';
       const shortPath = path.substring(path.length - 35);
-      console.log(`> ${collection.name} schema ${action} ...${shortPath}`);
+      console.info(`> ${collection.name} schema ${action} ...${shortPath}`);
     }),
   );
 }
@@ -85,6 +85,7 @@ if (useWatch) {
 
   // run once initially
   await loadAndTransformCollections(config, target, false);
+  console.info('> Watching for changes ...');
 
   // watch for changes
   try {
