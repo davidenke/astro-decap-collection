@@ -6,6 +6,7 @@ const jestConfig: JestConfigWithTsJest = {
   extensionsToTreatAsEsm: ['.ts'],
   moduleFileExtensions: ['ts', 'js', 'json', 'node'],
   moduleNameMapper: { '(.+)\\.js': '$1' },
+  modulePathIgnorePatterns: ['<rootDir>/dist/', '<rootDir>/public/', '<rootDir>/tmp/'],
   setupFiles: ['<rootDir>/jest.setup.ts'],
   transform: {
     '\\.[jt]s?$': ['ts-jest', { useESM: true }],

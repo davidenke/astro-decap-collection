@@ -9,5 +9,10 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ESNext"
+  },
+  "ts-node": {
+    "experimentalSpecifierResolution": "node",
+    "transpileOnly": true,
+    "esm": true
   }
 }
