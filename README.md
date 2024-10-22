@@ -41,6 +41,7 @@ Transform the Decap config at build time and use the generated Zod schema. This 
 | ---------------- | ----------------------------------------------- |
 | `--config`, `-c` | Path to the Decap YML config file               |
 | `--target`, `-t` | Path to the Astro content directory to write to |
+| `--watch`, `-w`  | Watch the config file for changes               |
 
 _The name of the target file will be `config.<collection>.ts`, using the collection name from the Decap config._
 
@@ -48,11 +49,12 @@ _The name of the target file will be `config.<collection>.ts`, using the collect
 # astro-decap-collection, adc - Binary name
 # --config, -c - Decap YML config file path to read from
 # --target, -t - Astro content directory path to write to
+# --watch,  -w - Use watch mode
 
 # full command:
-astro-decap-collection --config ./public/admin/config.yml --target ./src/content
+astro-decap-collection --config ./public/admin/config.yml --target ./src/content --watch
 # or shorthand:
-adc -c ./public/admin/config.yml -t ./src/content
+adc -c ./public/admin/config.yml -t ./src/content -w
 ```
 
 > The cli command should be run at least before every `astro build`.
@@ -105,5 +107,5 @@ export const collections = {
 Run a local tsx compiler in watch mode
 
 ```bash
-npx tsx watch ./src/cli.ts -c ../website/public/admin/config.yml -t ../website/src/content
+npx -y tsx watch src/cli.ts -c public/examples/blog.yml -t tmp -w
 ```
