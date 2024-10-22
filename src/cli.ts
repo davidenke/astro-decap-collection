@@ -83,6 +83,10 @@ if (useWatch) {
   const { signal } = abort;
   process.on('SIGINT', () => abort.abort());
 
+  // run once initially
+  await loadAndTransformCollections(config, target, false);
+
+  // watch for changes
   try {
     const watcher = watch(config!, { encoding: 'utf-8', signal });
     for await (const { eventType } of watcher) {
