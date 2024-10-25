@@ -71,5 +71,11 @@
     "vite-plugin-checker": "0.8.0",
     "vite-plugin-node-polyfills": "0.22.0",
     "zod": "3.23.8"
+  },
+  "bugs": "https://github.com/davidenke/astro-decap-collection/issues",
+  "homepage": "https://davidenke.github.io/astro-decap-collection",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidenke/astro-decap-collection.git"
   }
 }
