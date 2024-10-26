@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs';
 import { mkdir, rm, watch, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { exit } from 'node:process';
+import { exit, stdout } from 'node:process';
 import { parseArgs } from 'node:util';
 
 import { loadDecapConfig } from './utils/decap.utils.js';
@@ -70,8 +70,13 @@ export async function loadAndTransformCollections(from?: string, to?: string, is
 
       // inform user
       const action = isUpdate ? 'updated at' : 'written to';
-      const shortPath = path.substring(path.length - 35);
-      console.info(`> ${collection.name} schema ${action} ...${shortPath}`);
+      const before = `> ${collection.name} schema ${action} `;
+      const { columns = 120 } = stdout;
+      const dots = '...';
+      const chars = before.length + dots.length;
+      const shortPath = `${dots}${path.substring(path.length - columns + chars)}`;
+      const message = `${before}${path.length < columns - chars ? path : shortPath}`;
+      console.info(message);
     }),
   );
 }
