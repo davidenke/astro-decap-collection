@@ -97,7 +97,7 @@ export const transformField: Transformer = (field, z) => {
   }
 
   // set a default value
-  const { default: def } = field as Decap.CmsFieldStringOrText;
+  const { default: def } = field as { default?: any };
   if (def !== undefined) {
     runtime = runtime.default(def);
     cptime = `${cptime}.default(${JSON.stringify(def)})`;
