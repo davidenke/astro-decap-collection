@@ -22,10 +22,11 @@ const { values } = parseArgs({
   options: {
     config: { type: 'string', short: 'c' },
     target: { type: 'string', short: 't' },
+    naming: { type: 'string', short: 'n' },
     watch: { type: 'boolean', short: 'w' },
   },
 });
-const { config, target, watch: useWatch } = values;
+const { config, target, naming, watch: useWatch } = values;
 
 // check for required arguments
 function fail(message: string, exitCode = 1) {
@@ -45,7 +46,12 @@ function tryOrFail<T>(fn: () => T, error: ERROR, exitCode: false | number = 1): 
 }
 
 // read config and transform collections
-export async function loadAndTransformCollections(from?: string, to?: string, isUpdate = false) {
+export async function loadAndTransformCollections(
+  from?: string,
+  to?: string,
+  naming = 'config.%%name%%.ts',
+  isUpdate = false,
+) {
   if (!from) return fail(ERROR.MISSING_CONFIG);
   if (!to) return fail(ERROR.MISSING_TARGET);
 
@@ -57,7 +63,9 @@ export async function loadAndTransformCollections(from?: string, to?: string, is
     collections.map(async collection => {
       // transform collection
       const { cptime } = transformCollection(collection, { zod });
-      const path = resolve(to, `config.${collection.name}.ts`);
+      const keys = { name: collection.name };
+      const name = naming.replace(/%%(\w+)%%/, (_, k: keyof typeof keys) => keys[k] ?? _);
+      const path = resolve(to, name);
 
       // build content and prettify if possible
       const raw = `import { z } from 'astro:content';\n\nexport const schema = ${cptime};\n`;
@@ -89,7 +97,7 @@ if (useWatch) {
   process.on('SIGINT', () => abort.abort());
 
   // run once initially
-  await loadAndTransformCollections(config, target, false);
+  await loadAndTransformCollections(config, target, naming, false);
   console.info('> Watching for changes ...');
 
   // watch for changes
@@ -97,7 +105,7 @@ if (useWatch) {
     const watcher = watch(config!, { encoding: 'utf-8', signal });
     for await (const { eventType } of watcher) {
       if (eventType === 'change') {
-        await loadAndTransformCollections(config, target, true);
+        await loadAndTransformCollections(config, target, naming, true);
       }
     }
   } catch (error: any) {
@@ -106,5 +114,5 @@ if (useWatch) {
     throw error;
   }
 } else {
-  await loadAndTransformCollections(config, target, false);
+  await loadAndTransformCollections(config, target, naming, false);
 }
