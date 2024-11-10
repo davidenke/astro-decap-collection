@@ -53,9 +53,7 @@ export async function parseConfig(ymlData: string): Promise<CmsConfig | undefine
   }
 
   // load the original tooling...
-  const { parseConfig, normalizeConfig } = await import(
-    'decap-cms-core/dist/esm/actions/config.js'
-  );
+  const { default: decapConfig } = await import('decap-cms-core/dist/esm/actions/config.js');
 
   try {
     return normalizeConfig(parseConfig(ymlData) ?? {});
