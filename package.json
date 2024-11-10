@@ -34,6 +34,7 @@
   },
   "peerDependencies": {
     "astro": "^4.0.0",
+    "decap-cms-core": "^3.4.0",
     "zod": "^3.20.0"
   },
   "optionalDependencies": {
