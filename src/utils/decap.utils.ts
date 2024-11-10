@@ -56,8 +56,9 @@ export async function parseConfig(ymlData: string): Promise<CmsConfig | undefine
   const { default: decapConfig } = await import('decap-cms-core/dist/esm/actions/config.js');
 
   try {
-    return normalizeConfig(parseConfig(ymlData) ?? {});
-  } catch (_error) {
+    return decapConfig.normalizeConfig(decapConfig.parseConfig(ymlData) ?? {});
+  } catch (error) {
+    console.warn('Problems parsing Decap CMS config:', error);
     return undefined;
   }
 }
