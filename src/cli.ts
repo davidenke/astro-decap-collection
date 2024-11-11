@@ -89,15 +89,15 @@ export async function loadAndTransformCollections(
   );
 }
 
+// run once before watch, or just to create the files
+await loadAndTransformCollections(config, target, naming, false);
+
 // run once or watch for changes
 if (useWatch) {
   // prepare abort controller
   const abort = new AbortController();
   const { signal } = abort;
   process.on('SIGINT', () => abort.abort());
-
-  // run once initially
-  await loadAndTransformCollections(config, target, naming, false);
   console.info('> Watching for changes ...');
 
   // watch for changes
@@ -113,6 +113,4 @@ if (useWatch) {
     if (error?.name === 'AbortError') exit(0);
     throw error;
   }
-} else {
-  await loadAndTransformCollections(config, target, naming, false);
 }
