@@ -37,14 +37,17 @@ Transform the Decap config at build time and use the generated Zod schema. This 
 
 > This is the recommended way to use this module.
 
-| Option           | Description                                                           |
-| ---------------- | --------------------------------------------------------------------- |
-| `--config`, `-c` | Path to the Decap YML config file                                     |
-| `--target`, `-t` | Path to the Astro content directory to write to                       |
-| `--naming`, `-n` | Naming pattern of the created file [with placeholders](#placeholders) |
-| `--watch`, `-w`  | Watch the config file for changes                                     |
+| Option           | Description                                                                                                                                 |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--config`, `-c` | Path to the Decap YML config file, can be a [glob pattern](https://github.com/mrmlnc/fast-glob?tab=readme-ov-file#pattern-syntax)           |
+| `--target`, `-t` | Path to the Astro content directory to write to                                                                                             |
+| `--naming`, `-n` | Naming pattern of the created file [with placeholders](https://github.com/davidenke/astro-decap-collection?tab=readme-ov-file#placeholders) |
+| `--watch`, `-w`  | Watch the config file for changes                                                                                                           |
 
-_The name of the target file will be `config.<collection>.ts`, using the collection name from the Decap config._
+_The name of the target file will be `config.<collection>.ts` by default, using the collection name from the Decap config._\
+_This can be configured with the [`--naming` option placeholders](https://github.com/davidenke/astro-decap-collection?tab=readme-ov-file#placeholders)._
+
+> Config paths can be provided as positionals, thus the `--config` flag is optional.
 
 ```bash
 # astro-decap-collection, adc - Binary name
@@ -54,8 +57,10 @@ _The name of the target file will be `config.<collection>.ts`, using the collect
 
 # full command:
 astro-decap-collection --config ./public/admin/config.yml --target ./src/content --watch
-# or shorthand:
-adc -c ./public/admin/config.yml -t ./src/content -w
+# or with shorthands and positionals:
+adc -t ./src/content -w ./public/admin/config.yml
+# or with glob pattern:
+adc -t ./src/content -w ./public/collections/*.yml
 ```
 
 > The cli command should be run at least before every `astro build`.
@@ -80,7 +85,7 @@ export const collections = {
 
 #### Placeholders
 
-The `--name` option can be used to define a naming pattern for the generated file.\
+The `--naming` option can be used to define a naming pattern for the generated file.\
 For the time being, the following placeholders are supported:
 
 - `%%name%%` - The name of the collection from the Decap config
