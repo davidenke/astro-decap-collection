@@ -37,11 +37,12 @@ Transform the Decap config at build time and use the generated Zod schema. This 
 
 > This is the recommended way to use this module.
 
-| Option           | Description                                     |
-| ---------------- | ----------------------------------------------- |
-| `--config`, `-c` | Path to the Decap YML config file               |
-| `--target`, `-t` | Path to the Astro content directory to write to |
-| `--watch`, `-w`  | Watch the config file for changes               |
+| Option           | Description                                                           |
+| ---------------- | --------------------------------------------------------------------- |
+| `--config`, `-c` | Path to the Decap YML config file                                     |
+| `--target`, `-t` | Path to the Astro content directory to write to                       |
+| `--naming`, `-n` | Naming pattern of the created file [with placeholders](#placeholders) |
+| `--watch`, `-w`  | Watch the config file for changes                                     |
 
 _The name of the target file will be `config.<collection>.ts`, using the collection name from the Decap config._
 
@@ -76,6 +77,13 @@ export const collections = {
   blog: defineCollection({ type: 'content', schema }),
 };
 ```
+
+#### Placeholders
+
+The `--name` option can be used to define a naming pattern for the generated file.\
+For the time being, the following placeholders are supported:
+
+- `%%name%%` - The name of the collection from the Decap config
 
 ### Programmatic usage
 
