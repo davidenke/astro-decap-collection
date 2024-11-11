@@ -4,29 +4,20 @@ import { resolve } from 'node:path';
 import { exit, stdout } from 'node:process';
 import { parseArgs } from 'node:util';
 
+import glob from 'fast-glob';
+
 import { loadDecapConfig } from './utils/decap.utils.js';
 import { formatCode } from './utils/format.utils.js';
 import { transformCollection } from './utils/transform.utils.js';
 
 enum ERROR {
-  MISSING_CONFIG = 'Missing required argument: --config. Please provide a path to the Decap config.yml file.',
+  MISSING_CONFIG = 'Missing config path. Please provide a path to the Decap config.yml file as positional.',
   MISSING_TARGET = 'Missing required argument: --target. Please provide a path where the collections will be stored.',
   ZOD_MISSING = 'Zod is required for schema validation. Please install it by running `npm install zod`.',
   PARSING_FAILED = 'Failed to parse the Decap config file.',
   FORMATTING_FAILED = 'Failed to format the generated schema.',
   WRITING_FAILED = 'Failed to write the generated schema to the target folder.',
 }
-
-// parse cli arguments
-const { values } = parseArgs({
-  options: {
-    config: { type: 'string', short: 'c' },
-    target: { type: 'string', short: 't' },
-    naming: { type: 'string', short: 'n' },
-    watch: { type: 'boolean', short: 'w' },
-  },
-});
-const { config, target, naming, watch: useWatch } = values;
 
 // check for required arguments
 function fail(message: string, exitCode = 1) {
@@ -47,14 +38,11 @@ function tryOrFail<T>(fn: () => T, error: ERROR, exitCode: false | number = 1): 
 
 // read config and transform collections
 export async function loadAndTransformCollections(
-  from?: string,
-  to?: string,
+  from: string,
+  to: string,
   naming = 'config.%%name%%.ts',
   isUpdate = false,
 ) {
-  if (!from) return fail(ERROR.MISSING_CONFIG);
-  if (!to) return fail(ERROR.MISSING_TARGET);
-
   const zod = await tryOrFail(() => import('zod'), ERROR.ZOD_MISSING);
   const config = await tryOrFail(() => loadDecapConfig(from), ERROR.PARSING_FAILED);
   const { collections = [] } = config ?? {};
@@ -89,28 +77,55 @@ export async function loadAndTransformCollections(
   );
 }
 
-// run once before watch, or just to create the files
-await loadAndTransformCollections(config, target, naming, false);
+async function run() {
+  // parse cli arguments
+  const { positionals, values } = parseArgs({
+    allowPositionals: true,
+    options: {
+      config: { type: 'string', short: 'c' },
+      target: { type: 'string', short: 't' },
+      naming: { type: 'string', short: 'n' },
+      watch: { type: 'boolean', short: 'w' },
+    },
+  });
+  const { config, target, naming, watch: useWatch } = values;
+  const input = [...positionals, config].filter(Boolean) as string[];
 
-// run once or watch for changes
-if (useWatch) {
-  // prepare abort controller
-  const abort = new AbortController();
-  const { signal } = abort;
-  process.on('SIGINT', () => abort.abort());
-  console.info('> Watching for changes ...');
+  // everything there?
+  if (!input.length) return fail(ERROR.MISSING_CONFIG);
+  if (!target) return fail(ERROR.MISSING_TARGET);
 
-  // watch for changes
-  try {
-    const watcher = watch(config!, { encoding: 'utf-8', signal });
-    for await (const { eventType } of watcher) {
-      if (eventType === 'change') {
-        await loadAndTransformCollections(config, target, naming, true);
+  // as the config path can be a glob pattern, which is not
+  // extended by all shells; so we use fast-glob here
+  const configs = await glob(input, { onlyFiles: true });
+
+  // run once before watch, or just to create the files
+  await Promise.all(configs.map(c => loadAndTransformCollections(c, target, naming, false)));
+
+  // run once or watch for changes
+  if (useWatch) {
+    // prepare abort controller
+    const abort = new AbortController();
+    const { signal } = abort;
+    process.on('SIGINT', () => abort.abort());
+    console.info('> Watching for changes ...');
+
+    // watch for changes
+    configs.forEach(async config => {
+      try {
+        const watcher = watch(config, { encoding: 'utf-8', signal });
+        for await (const { eventType } of watcher) {
+          if (eventType === 'change') {
+            await loadAndTransformCollections(config, target, naming, true);
+          }
+        }
+      } catch (error: any) {
+        // throw error if not aborted
+        if (error?.name === 'AbortError') exit(0);
+        throw error;
       }
-    }
-  } catch (error: any) {
-    // throw error if not aborted
-    if (error?.name === 'AbortError') exit(0);
-    throw error;
+    });
   }
 }
+
+run();
