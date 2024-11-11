@@ -1,5 +1,7 @@
 # Astro Decap Collection
 
+## [0.1.8](https://github.com/davidenke/astro-decap-collection/compare/0.1.7...0.1.8) (2024-11-11)
+
 ## 0.1.7 (2024-11-11)
 
 ## 0.1.6 (2024-11-10)
