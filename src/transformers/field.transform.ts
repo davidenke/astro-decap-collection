@@ -98,7 +98,8 @@ export const transformField: Transformer = (field, z) => {
 
   // set a default value
   const { default: def } = field as { default?: any };
-  if (def !== undefined) {
+  // cannot set null as default value on mandatory fields
+  if (def !== undefined || (def === null && !field.required)) {
     runtime = runtime.default(def);
     cptime = `${cptime}.default(${JSON.stringify(def)})`;
   }
