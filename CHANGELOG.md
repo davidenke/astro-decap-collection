@@ -1,5 +1,19 @@
 # Astro Decap Collection
 
+# [0.2.0](https://github.com/davidenke/astro-decap-collection/compare/0.1.8...0.2.0) (2024-11-12)
+
+
+### Bug Fixes
+
+* node and browser should handle dynamic default import ([76dd674](https://github.com/davidenke/astro-decap-collection/commit/76dd67429060c400ea85dc41a80b50dc6136074a))
+* set default value to null only if nullable ([c4c5f6c](https://github.com/davidenke/astro-decap-collection/commit/c4c5f6c3d38ee08ed71c7c53d5df3454fcdf45a6))
+
+
+### Features
+
+* **demo:** dark color scheme ([477b209](https://github.com/davidenke/astro-decap-collection/commit/477b2096da671a7dba70bf85e1fc7490cac078d3))
+* handle file collections ([30e2bee](https://github.com/davidenke/astro-decap-collection/commit/30e2bee5e674d2e5d9bee5ee36a9af908ab50d7c))
+
 ## [0.1.9](https://github.com/davidenke/astro-decap-collection/compare/0.1.8...0.1.9) (2024-11-11)
 
 ## [0.1.8](https://github.com/davidenke/astro-decap-collection/compare/0.1.7...0.1.8) (2024-11-11)
