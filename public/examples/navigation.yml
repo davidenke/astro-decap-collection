@@ -1,0 +1,37 @@
+# just to satisfy schema validation
+backend: { name: "" }
+media_folder: ""
+
+# navigation collection
+collections:
+  - name: navigation
+    label: Navigation
+    format: json
+    files:
+      - name: main
+        label: Main
+        file: "navigation/main.json"
+        fields:
+          - name: pages
+            label: Pages
+            widget: list
+            fields:
+              - name: page
+                label: Page
+                widget: relation
+                collection: pages
+                value_field: "{{slug}}"
+                display_fields: ["title"]
+                search_fields: ["title"]
+              - name: useSections
+                label: Use Sections
+                widget: boolean
+                default: false
+                required: false
+      - name: meta
+        label: Meta
+        file: "navigation/meta.json"
+        fields:
+          - name: pages
+            label: Pages
+            widget: list
