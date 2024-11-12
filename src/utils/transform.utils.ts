@@ -91,8 +91,33 @@ export function transformCollection(
   const { format = 'frontmatter' } = collection;
   if (format === 'frontmatter') {
     collection.fields = collection.fields?.filter(({ name }) => name !== 'body');
+    collection.files = collection.files?.reduce((acc, file) => {
+      return [...acc, { ...file, fields: file.fields.filter(({ name }) => name !== 'body') }];
+    }, [] as Decap.CmsCollectionFile[]);
   }
 
-  // we can process the collection with its fields like every other object
-  return transformObjectField(collection as Decap.CmsFieldBase & Decap.CmsFieldObject, zod);
+  // we can process folder collections with its fields like every other object
+  if ('folder' in collection) {
+    const { name, fields = [] } = collection;
+    const field = { name, fields, widget: 'object' as const };
+    return transformObjectField(field, zod);
+  }
+
+  // file collections are for now union types of all defined types; that might
+  // change in the future, as it should be possible to define different collection
+  // data types in astro... (?)
+  if (Array.isArray(collection.files)) {
+    const results = collection.files.map(file => {
+      const { name, fields = [] } = file;
+      const field = { name, fields, widget: 'object' as const };
+      return transformObjectField(field, zod);
+    });
+    return {
+      cptime: `z.union([${results.map(({ cptime }) => cptime).join(', ')}])`,
+      runtime: zod.union(results.map(({ runtime }) => runtime) as any),
+    };
+  }
+
+  // a collection without a folder OR a file list is invalid, thus we define `never`
+  return { runtime: zod.never(), cptime: 'z.never()' };
 }
