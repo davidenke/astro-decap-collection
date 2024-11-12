@@ -2,7 +2,13 @@ import type * as Decap from 'decap-cms-core';
 import type * as Zod from 'zod';
 
 import type { DecapWidgetType } from '../utils/decap.utils.js';
-import type { Transformer, TransformResult } from '../utils/transform.utils.js';
+import {
+  applyDefaultValue,
+  applyDescription,
+  applyOptional,
+  type Transformer,
+  type TransformResult,
+} from '../utils/transform.utils.js';
 import { transformBooleanField } from './field-boolean.transform.js';
 import { transformCodeField } from './field-code.transform.js';
 import { transformDateTimeField } from './field-date-time.transform.js';
@@ -88,26 +94,10 @@ export const transformField: Transformer = (field, z) => {
       break;
   }
 
-  // flag field as optional - it should be explicitly `optional()` or `nullable()`,
-  // but for me it's not quite clear right now what is specified on the Decap side
-  // fyi: https://gist.github.com/ciiqr/ee19e9ff3bb603f8c42b00f5ad8c551e
-  if (field.required === false) {
-    runtime = runtime.nullish();
-    cptime = `${cptime}.nullish()`;
-  }
-
-  // set a default value
-  const { default: def } = field as { default?: any };
-  // cannot set null as default value on mandatory fields
-  if (def !== undefined || (def === null && !field.required)) {
-    runtime = runtime.default(def);
-    cptime = `${cptime}.default(${JSON.stringify(def)})`;
-  }
-
-  // add a description
-  const description = field.hint ?? field.label ?? field.name;
-  runtime = runtime.describe(description);
-  cptime = `${cptime}.describe('${description}')`;
+  // flag field as optional, set a default value and add a description if available
+  ({ cptime, runtime } = applyOptional(field, { cptime, runtime }));
+  ({ cptime, runtime } = applyDefaultValue(field, { cptime, runtime }));
+  ({ cptime, runtime } = applyDescription(field, { cptime, runtime }));
 
   return { runtime, cptime };
 };

@@ -29,6 +29,54 @@ export type TransformResult<R = Zod.ZodType> = {
 };
 
 /**
+ * Flags a field as optional if it is not required.
+ */
+export function applyOptional(field: Decap.CmsField, result: TransformResult): TransformResult {
+  // it should be explicitly `optional()` or `nullable()`,
+  // but for me it's not quite clear right now what is specified on the Decap side
+  // fyi: https://gist.github.com/ciiqr/ee19e9ff3bb603f8c42b00f5ad8c551e
+  if (field.required === false) {
+    return {
+      runtime: result.runtime.nullish(),
+      cptime: `${result.cptime}.nullish()`,
+    };
+  }
+  return result;
+}
+
+/**
+ * Sets a default value if reasonable.
+ */
+export function applyDefaultValue(field: Decap.CmsField, result: TransformResult): TransformResult {
+  const { default: def } = field as { default?: any };
+  // cannot set null as default value on mandatory fields
+  if (def === undefined || (def === null && field.required)) {
+    return result;
+  }
+
+  // set default value
+  return {
+    runtime: result.runtime.default(def),
+    cptime: `${result.cptime}.default(${JSON.stringify(def)})`,
+  };
+}
+
+/**
+ * Derives and sets a description if available.
+ */
+export function applyDescription(field: Decap.CmsField, result: TransformResult): TransformResult {
+  // derive potential description
+  const description = field.hint ?? field.label ?? field.name;
+  if (description === undefined) return result;
+
+  // set a description
+  return {
+    runtime: result.runtime.describe(description),
+    cptime: `${result.cptime}.describe('${description}')`,
+  };
+}
+
+/**
  * Transforms a Decap CMS collection config into an Astro collection schema.
  */
 export function transformCollection(
