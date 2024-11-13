@@ -1,5 +1,12 @@
 # Astro Decap Collection
 
+## [0.2.1](https://github.com/davidenke/astro-decap-collection/compare/0.2.0...0.2.1) (2024-11-13)
+
+
+### Bug Fixes
+
+* single file collection ([33f9518](https://github.com/davidenke/astro-decap-collection/commit/33f9518b8f9e7d84922a32eaf3e63aa97ace5c40))
+
 # [0.2.0](https://github.com/davidenke/astro-decap-collection/compare/0.1.8...0.2.0) (2024-11-12)
 
 
