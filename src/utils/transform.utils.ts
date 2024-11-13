@@ -112,6 +112,9 @@ export function transformCollection(
       const field = { name, fields, widget: 'object' as const };
       return transformObjectField(field, zod);
     });
+    // single file collection is just the result
+    if (results.length === 1) return results[0];
+    // multiple file collection is a union of all results
     return {
       cptime: `z.union([${results.map(({ cptime }) => cptime).join(', ')}])`,
       runtime: zod.union(results.map(({ runtime }) => runtime) as any),
