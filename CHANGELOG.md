@@ -1,5 +1,12 @@
 # Astro Decap Collection
 
+## [0.2.2](https://github.com/davidenke/astro-decap-collection/compare/0.2.1...0.2.2) (2024-12-11)
+
+
+### Bug Fixes
+
+* add missing shebang to cli script ([6ffea5e](https://github.com/davidenke/astro-decap-collection/commit/6ffea5ebd2fb4120d9ecfd445e28829c2f09d8da)), closes [#1](https://github.com/davidenke/astro-decap-collection/issues/1)
+
 ## [0.2.1](https://github.com/davidenke/astro-decap-collection/compare/0.2.0...0.2.1) (2024-11-13)
 
 
