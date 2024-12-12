@@ -84,3 +84,42 @@ collections:
                 options:
                   - { label: "Lead", value: "lead" }
                   - { label: "Body", value: "body" }
+
+      # Relation fields
+      - label: "Author"
+        name: "author"
+        widget: "relation"
+        collection: "authors"
+        multiple: false
+        required: true
+        search_fields: ["name"]
+        value_field: "name"
+        display_fields: ["name"]
+
+      - label: "Tags"
+        name: "tags"
+        widget: "relation"
+        collection: "tags"
+        multiple: true
+        required: false
+        search_fields: ["title"]
+        value_field: "title"
+        display_fields: ["title"]
+
+      - label: "Categories"
+        name: "categories"
+        widget: "relation"
+        collection: "categories"
+        multiple: true
+        required: true
+        search_fields: ["name"]
+        value_field: "name"
+        display_fields: ["name"]
+
+      - label: "Post Type"
+        name: "post_type"
+        widget: "relation"
+        collection: "types"
+        multiple: false
+        required: false
+        search_fields: ["type"]
