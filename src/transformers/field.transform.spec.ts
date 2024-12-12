@@ -85,7 +85,10 @@ describe('field.transform', () => {
 
     it(`interchangeable results ${desc}`, () => {
       const { cptime, runtime } = transform(field, z);
-      const compiled = new Function('z', `return ${transpileFrom(cptime)};`)(z);
+      const compiled = new Function('z', 'reference', `return ${transpileFrom(cptime)};`)(
+        z,
+        (_collection: string) => z.string(),
+      );
       expect(serializeShape(compiled)).toEqual(serializeShape(runtime));
     });
 
