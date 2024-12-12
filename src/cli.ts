@@ -56,9 +56,16 @@ export async function loadAndTransformCollections(
       const keys = { name: collection.name };
       const name = naming.replace(/%%(\w+)%%/, (_, k: keyof typeof keys) => keys[k] ?? _);
       const path = resolve(to, name);
+      const relational = collection.fields?.some(field => field.widget === 'relation');
+      const astroImports = ['z'];
+
+      if (relational) {
+        // Collections containing relational fields require `reference`
+        astroImports.push('reference');
+      }
 
       // build content and prettify if possible
-      const raw = `import { z } from 'astro:content';\n\nexport const schema = ${cptime};\n`;
+      const raw = `import { ${astroImports.sort().join(', ')} } from 'astro:content';\n\nexport const schema = ${cptime};\n`;
       const pretty = await tryOrFail(() => formatCode(raw, 'typescript'), ERROR.FORMATTING_FAILED);
 
       // prepare folder if non-existent, remove existing and write file
