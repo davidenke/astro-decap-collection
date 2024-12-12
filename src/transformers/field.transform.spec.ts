@@ -87,7 +87,7 @@ describe('field.transform', () => {
     });
 
     it(`exposes the correct runtime Zod object ${desc}`, () => {
-      const runtime = parseShape(transform(field).compiled, { z });
+      const runtime = parseShape(transform(field).compiled, { z, reference: () => z.string() });
       expect(runtime).toBeInstanceOf(runtype);
     });
   });
