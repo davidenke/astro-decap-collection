@@ -1,14 +1,16 @@
 import type { CmsFieldBase, CmsFieldRelation } from 'decap-cms-core';
-import type { ZodString } from 'zod';
+import type { ZodTypeAny } from 'zod';
 
 import type { Transformer } from '../utils/transform.utils.js';
 
-// TODO implement transform relations
-// https://decapcms.org/docs/widgets/#relation
-export const transformRelationField: Transformer<ZodString, CmsFieldBase & CmsFieldRelation> = (
-  _,
+export const transformRelationField: Transformer<ZodTypeAny, CmsFieldBase & CmsFieldRelation> = (
+  { collection, multiple = false, required = true },
   z,
-) => ({
-  runtime: z.string(),
-  cptime: 'z.string()',
-});
+) => {
+  const base = multiple ? z.array(z.string()) : z.string();
+  const runtime = required ? base : base.optional();
+
+  const cptime = multiple ? `z.array(reference('${collection}'))` : `reference('${collection}')`;
+
+  return { runtime, cptime };
+};
