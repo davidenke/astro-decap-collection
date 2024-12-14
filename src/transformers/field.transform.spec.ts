@@ -29,23 +29,27 @@ describe('field.transform', () => {
     });
 
     it('delivers a transform result', () => {
-      expect(transformField(field, z)).toHaveProperty('runtime');
-      expect(transformField(field, z)).toHaveProperty('cptime');
+      expect(transformField(field)).toHaveProperty('compiled');
     });
 
-    it('exposes a runtime Zod object', () => {
-      expect(transformField(field, z).runtime).toBeInstanceOf(z.ZodString);
+    it('exposes a Zod object at runtime', () => {
+      const runtime = parseShape(transformField(field).compiled);
+      expect(runtime).toBeInstanceOf(z.ZodString);
     });
 
     it('adds a description', () => {
       // from hint, label or name
+      // FIXME: implement or remove if not needed
     });
 
     it('can be optional', () => {
       // fttb 'nullish' → `null` or `undefined`
+      // FIXME: implement or remove if not needed
     });
 
-    it('can have a default value', () => {});
+    it('can have a default value', () => {
+      // FIXME: implement or remove if not needed
+    });
   });
 
   describe.each`
@@ -79,18 +83,12 @@ describe('field.transform', () => {
     });
 
     it(`delivers a transform result ${desc}`, () => {
-      expect(transform(field, z)).toHaveProperty('runtime');
-      expect(transform(field, z)).toHaveProperty('cptime');
+      expect(transform(field)).toHaveProperty('compiled');
     });
 
-    it(`interchangeable results ${desc}`, () => {
-      const { compiled: cptime, runtime } = transform(field, z);
-      const compiled = new Function('z', `return ${transpileFrom(cptime)};`)(z);
-      expect(serializeShape(compiled)).toEqual(serializeShape(runtime));
-    });
-
-    it(`exposes a runtime Zod object ${desc}`, () => {
-      expect(transform(field, z).runtime).toBeInstanceOf(runtype);
+    it(`exposes the correct runtime Zod object ${desc}`, () => {
+      const runtime = parseShape(transform(field).compiled);
+      expect(runtime).toBeInstanceOf(runtype);
     });
   });
 });

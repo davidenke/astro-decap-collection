@@ -7,7 +7,7 @@ describe('field-string.transform', () => {
   it('always sets the code along with the language', () => {
     const field = { name: 'foo', widget: 'code' } as CmsFieldBase & CmsFieldCode;
     const { compiled } = transformCodeField(field);
-    const runtime = eval(compiled);
+    const runtime = parseShape(compiled);
     const { shape } = runtime as ZodObject<any>;
     expect(shape).toHaveProperty('code');
     expect(shape).toHaveProperty('language');

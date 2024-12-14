@@ -1,5 +1,4 @@
 import type { CmsFieldBase, CmsFieldNumber } from 'decap-cms-core';
-import z from 'zod';
 
 import { transformNumberField } from './field-number.transform.js';
 
@@ -12,7 +11,8 @@ describe('field-number.transform', () => {
 
   it('can be integer', () => {
     const intField = { ...field, value_type: 'int' };
-    const { runtime } = transformNumberField(intField, z);
+    const { compiled } = transformNumberField(intField);
+    const runtime = parseShape(compiled);
     const { checks } = runtime._def;
     expect(checks).toHaveLength(2);
     expect(checks).toEqual(expect.arrayContaining([{ kind: 'finite' }, { kind: 'int' }]));
@@ -20,7 +20,8 @@ describe('field-number.transform', () => {
 
   it('can have a min value', () => {
     const minField = { ...field, min: 1 };
-    const { runtime } = transformNumberField(minField, z);
+    const { compiled } = transformNumberField(minField);
+    const runtime = parseShape(compiled);
     const { checks } = runtime._def;
     expect(checks).toHaveLength(3);
     expect(checks).toEqual(expect.arrayContaining([{ kind: 'min', inclusive: true, value: 1 }]));
@@ -28,7 +29,8 @@ describe('field-number.transform', () => {
 
   it('can have a max value', () => {
     const maxField = { ...field, max: 5 };
-    const { runtime } = transformNumberField(maxField, z);
+    const { compiled } = transformNumberField(maxField);
+    const runtime = parseShape(compiled);
     const { checks } = runtime._def;
     expect(checks).toHaveLength(3);
     expect(checks).toEqual(expect.arrayContaining([{ kind: 'max', inclusive: true, value: 5 }]));

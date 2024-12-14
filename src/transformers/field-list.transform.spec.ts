@@ -1,5 +1,4 @@
 import type { CmsField, CmsFieldBase, CmsFieldList } from 'decap-cms-core';
-import z from 'zod';
 
 import { transformListField } from './field-list.transform.js';
 
@@ -10,7 +9,8 @@ describe('field-list.transform', () => {
       widget: 'list',
       field: { name: 'foo', widget: 'text' } as CmsField,
     } as CmsFieldBase & CmsFieldList;
-    const { runtime } = transformListField(field, z);
+    const { compiled } = transformListField(field);
+    const runtime = parseShape(compiled);
     const result = ['foo', 'bar', 'baz'];
     expect(() => runtime.parse(result)).not.toThrow();
   });
@@ -24,7 +24,8 @@ describe('field-list.transform', () => {
         { name: 'bar', widget: 'number' } as CmsField,
       ],
     } as CmsFieldBase & CmsFieldList;
-    const { runtime } = transformListField(field, z);
+    const { compiled } = transformListField(field);
+    const runtime = parseShape(compiled);
     const result = [{ foo: 'foo', bar: 123 }];
     expect(() => runtime.parse(result)).not.toThrow();
   });
@@ -43,7 +44,8 @@ describe('field-list.transform', () => {
         },
       ],
     } as CmsFieldBase & CmsFieldList;
-    const { runtime } = transformListField(field, z);
+    const { compiled } = transformListField(field);
+    const runtime = parseShape(compiled);
     const result = [{ type: 'foo', foo: 'foo', bar: 123 }];
     expect(() => runtime.parse(result)).not.toThrow();
   });
