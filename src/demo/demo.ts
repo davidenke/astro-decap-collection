@@ -1,8 +1,9 @@
+/// <reference types="vite/client" />
+
 import hljs from 'highlight.js';
 import json from 'highlight.js/lib/languages/json';
 import ts from 'highlight.js/lib/languages/typescript';
 import yaml from 'highlight.js/lib/languages/yaml';
-import zod from 'zod';
 
 import { parseConfig } from '../utils/decap.utils.js';
 import { formatCode } from '../utils/format.utils.js';
@@ -18,6 +19,7 @@ declare global {
     handleInput(event: InputEvent): Promise<void>;
     handleScroll(event: Event): void;
 
+    initExamples(): void;
     loadExample(path: string): void;
     updateExample(data: string): void;
     updateInput(from: InputEvent): string;
@@ -38,7 +40,10 @@ hljs.registerLanguage('yaml', yaml);
 // prevent errors from libs using ancient `global` instead of `globalThis`
 window.global ||= window;
 
-window.handleLoad = () => window.initFromUrl();
+window.handleLoad = () => {
+  window.initExamples();
+  window.initFromUrl();
+};
 
 window.handleClick = event => {
   event.preventDefault();
@@ -55,7 +60,7 @@ window.handleInput = async event => {
 
   const schemas = await Promise.all(
     collections.map(async collection => {
-      const { compiled: cptime } = transformCollection(collection, { zod });
+      const { compiled: cptime } = transformCollection(collection);
       return [collection.name, await formatCode(cptime, undefined, { printWidth: 50 })];
     }),
   );
@@ -78,6 +83,20 @@ window.updateInput = event => {
   window.reflectToUrl(input.value);
 
   return input.value;
+};
+
+// lists all examples from the `examples` folder
+window.initExamples = async () => {
+  const examples = Object.keys(import.meta.glob('/public/examples/*.yml'));
+  document.querySelector('#input > nav')!.innerHTML = examples
+    .map(path => {
+      const [, , folder, name] = path.split('/');
+      return `
+        <button data-example="${`${folder}/${name}`}" onclick="window.handleClick(event)">
+          ${name.replace(/\.yml$/, '')} example
+        </button>`;
+    })
+    .join('');
 };
 
 // loads an example from the `examples` folder

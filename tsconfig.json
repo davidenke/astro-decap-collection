@@ -9,7 +9,8 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "ESNext"
+    "target": "ESNext",
+    "useDefineForClassFields": true
   },
   "ts-node": {
     "experimentalSpecifierResolution": "node",
