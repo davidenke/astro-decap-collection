@@ -9,11 +9,16 @@ export type Transformer<F = Decap.CmsField> = (field: F) => TransformResult;
 
 /**
  * Utility type defining the result of a transformation.
- * It consists of a Zod runtime type and a string representation of the Zod schema.
- * The latter is used to generate the content of a TypeScript file.
+ * It consists of a Zod schema string representation and an optional list of
+ * dependencies to the generated astro content module. The latter usually
+ * contains the `z` (zod) re-export of the Astro runtime.
  */
 export type TransformResult = {
+  // the compiled result as string
   compiled: string;
+  // the optional list of dependencies - as we want this to be explicitly optional,
+  // one must return at least an empty array if really no dependencies are required
+  dependencies: string[];
 };
 
 /**
@@ -26,6 +31,7 @@ export function applyOptional(field: Decap.CmsField, result: TransformResult): T
   if (field.required === false) {
     return {
       compiled: `${result.compiled}.nullish()`,
+      dependencies: ['z', ...result.dependencies],
     };
   }
   return result;
@@ -44,6 +50,7 @@ export function applyDefaultValue(field: Decap.CmsField, result: TransformResult
   // set default value
   return {
     compiled: `${result.compiled}.default(${JSON.stringify(def)})`,
+    dependencies: ['z', ...result.dependencies],
   };
 }
 
@@ -58,6 +65,7 @@ export function applyDescription(field: Decap.CmsField, result: TransformResult)
   // set a description
   return {
     compiled: `${result.compiled}.describe('${description}')`,
+    dependencies: ['z', ...result.dependencies],
   };
 }
 
@@ -99,9 +107,10 @@ export function transformCollection(collection: Decap.CmsCollection): TransformR
     // multiple file collection is a union of all results
     return {
       compiled: `z.union([${results.map(({ compiled: cptime }) => cptime).join(', ')}])`,
+      dependencies: ['z', ...results.flatMap(({ dependencies }) => dependencies)],
     };
   }
 
   // a collection without a folder OR a file list is invalid, thus we define `never`
-  return { compiled: 'z.never()' };
+  return { compiled: 'z.never()', dependencies: ['z'] };
 }

@@ -7,4 +7,5 @@ export const transformDateTimeField: Transformer<CmsFieldBase & CmsFieldDateTime
   // Decap does not store seconds, but we can just articulate 'no milliseconds'
   // https://zod.dev/?id=dates-1
   compiled: 'z.date()',
+  dependencies: ['z'],
 });

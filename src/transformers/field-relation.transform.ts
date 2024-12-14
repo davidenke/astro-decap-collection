@@ -6,4 +6,5 @@ import type { Transformer } from '../utils/transform.utils.js';
 // https://decapcms.org/docs/widgets/#relation
 export const transformRelationField: Transformer<CmsFieldBase & CmsFieldRelation> = () => ({
   compiled: 'z.string()',
+  dependencies: ['z'],
 });

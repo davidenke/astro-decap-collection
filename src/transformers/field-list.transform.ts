@@ -19,20 +19,30 @@ export const transformListField: Transformer<CmsFieldBase & CmsFieldList> = ({
       // transform first
       const item = transformObjectField(type);
       // extend with type discriminator
-      return { compiled: `${item.compiled}.extend({type: z.literal('${type.name}')})` };
+      return {
+        compiled: `${item.compiled}.extend({type: z.literal('${type.name}')})`,
+        dependencies: ['z', ...item.dependencies],
+      };
     });
     return {
       compiled: `z.array(z.discriminatedUnion('type', [${items.map(t => t.compiled).join(',')}]))`,
+      dependencies: ['z', ...items.flatMap(({ dependencies }) => dependencies)],
     };
   }
 
   // handle fields list
   if (Array.isArray(fields)) {
     const items = transformObjectField({ fields } as any);
-    return { compiled: `z.array(${items.compiled})` };
+    return {
+      compiled: `z.array(${items.compiled})`,
+      dependencies: ['z', ...items.dependencies],
+    };
   }
 
   // handle single field (or never) list
   const item = transformField(field);
-  return { compiled: `z.array(${item.compiled})` };
+  return {
+    compiled: `z.array(${item.compiled})`,
+    dependencies: ['z', ...item.dependencies],
+  };
 };

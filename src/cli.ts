@@ -50,13 +50,14 @@ export async function loadAndTransformCollections(
   await Promise.all(
     collections.map(async collection => {
       // transform collection
-      const { compiled: cptime } = transformCollection(collection);
+      const { compiled, dependencies } = transformCollection(collection);
       const keys = { name: collection.name };
       const name = naming.replace(/%%(\w+)%%/, (_, k: keyof typeof keys) => keys[k] ?? _);
       const path = resolve(to, name);
 
       // build content and prettify if possible
-      const raw = `import { z } from 'astro:content';\n\nexport const schema = ${cptime};\n`;
+      const imports = [...new Set(dependencies)].toSorted();
+      const raw = `import { ${imports.join(', ')} } from 'astro:content';\n\nexport const schema = ${compiled};\n`;
       const pretty = await tryOrFail(() => formatCode(raw, 'typescript'), ERROR.FORMATTING_FAILED);
 
       // prepare folder if non-existent, remove existing and write file

@@ -11,6 +11,7 @@ export const transformHiddenField: Transformer<CmsFieldBase & CmsFieldHidden> = 
     const json: Zod.ZodType<Json> = z.lazy(() => z.union([literal, z.array(json), z.record(json)]));
     return json;
   })`,
+  dependencies: ['z'],
   // This @jsdoc version was meant to make tests working, as the cptime string has simply been eval'd.
   // That might be helpful (or not) later. For now, we compile the cptime string first and then eval it.
   // cptime: `z.lazy(() => {

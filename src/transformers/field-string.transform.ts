@@ -8,4 +8,4 @@ import type { Transformer } from '../utils/transform.utils.js';
 // https://decapcms.org/docs/widgets/#text
 export const transformStringField: Transformer<
   CmsFieldBase & (CmsFieldColor | CmsFieldStringOrText)
-> = () => ({ compiled: 'z.string()' });
+> = () => ({ compiled: 'z.string()', dependencies: ['z'] });

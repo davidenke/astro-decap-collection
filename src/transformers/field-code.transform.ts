@@ -7,4 +7,5 @@ export const transformCodeField: Transformer<CmsFieldBase & CmsFieldCode> = ({
   output_code_only: flat,
 }) => ({
   compiled: flat ? 'z.string()' : 'z.object({ code: z.string(), language: z.string() })',
+  dependencies: ['z'],
 });

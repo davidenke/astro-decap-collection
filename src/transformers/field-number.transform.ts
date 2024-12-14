@@ -8,7 +8,7 @@ export const transformNumberField: Transformer<CmsFieldBase & CmsFieldNumber> = 
   min,
   value_type = 'int',
 }) => {
-  const transformed = { compiled: 'z.number().finite()' };
+  const transformed = { compiled: 'z.number().finite()', dependencies: ['z'] };
 
   // numbers can be float or int
   if (value_type === 'int') {

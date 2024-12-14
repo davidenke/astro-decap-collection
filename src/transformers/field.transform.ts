@@ -26,72 +26,72 @@ export const transformField: Transformer = field => {
   const knownWidgets = field.widget as DecapWidgetType;
   const applyTransform = (field: Decap.CmsField, transformer: Transformer<any>): TransformResult =>
     transformer(field);
-  let compiled: string;
+  let result: TransformResult;
 
   switch (knownWidgets) {
     case 'color': // https://decapcms.org/docs/widgets/#color
     case 'markdown': // https://decapcms.org/docs/widgets/#markdown
     case 'string': // https://decapcms.org/docs/widgets/#string
     case 'text': // https://decapcms.org/docs/widgets/#text
-      ({ compiled } = applyTransform(field, transformStringField));
+      result = applyTransform(field, transformStringField);
       break;
 
     case 'file': // https://decapcms.org/docs/widgets/#file
     case 'image': // https://decapcms.org/docs/widgets/#image
-      ({ compiled } = applyTransform(field, transformFileField));
+      result = applyTransform(field, transformFileField);
       break;
 
     case 'datetime': // https://decapcms.org/docs/widgets/#datetime
-      ({ compiled } = applyTransform(field, transformDateTimeField));
+      result = applyTransform(field, transformDateTimeField);
       break;
 
     case 'code': // https://decapcms.org/docs/widgets/#code
-      ({ compiled } = applyTransform(field, transformCodeField));
+      result = applyTransform(field, transformCodeField);
       break;
 
     case 'hidden': // https://decapcms.org/docs/widgets/#hidden
-      ({ compiled } = applyTransform(field, transformHiddenField));
+      result = applyTransform(field, transformHiddenField);
       break;
 
     case 'map': // https://decapcms.org/docs/widgets/#map
-      ({ compiled } = applyTransform(field, transformMapField));
+      result = applyTransform(field, transformMapField);
       break;
 
     case 'relation': // https://decapcms.org/docs/widgets/#relation
-      ({ compiled } = applyTransform(field, transformRelationField));
+      result = applyTransform(field, transformRelationField);
       break;
 
     case 'number': // https://decapcms.org/docs/widgets/#number
-      ({ compiled } = applyTransform(field, transformNumberField));
+      result = applyTransform(field, transformNumberField);
       break;
 
     case 'boolean': // https://decapcms.org/docs/widgets/#boolean
-      ({ compiled } = applyTransform(field, transformBooleanField));
+      result = applyTransform(field, transformBooleanField);
       break;
 
     case 'select': // https://decapcms.org/docs/widgets/#select
-      ({ compiled } = applyTransform(field, transformSelectField));
+      result = applyTransform(field, transformSelectField);
       break;
 
     case 'object': // https://decapcms.org/docs/widgets/#object
-      ({ compiled } = applyTransform(field, transformObjectField));
+      result = applyTransform(field, transformObjectField);
       break;
 
     case 'list': // https://decapcms.org/docs/widgets/#list
-      ({ compiled } = applyTransform(field, transformListField));
+      result = applyTransform(field, transformListField);
       break;
 
     default:
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       (_exhaustiveCheck: never = knownWidgets) => null;
-      ({ compiled } = transformNeverField(field));
+      result = transformNeverField(field);
       break;
   }
 
   // flag field as optional, set a default value and add a description if available
-  ({ compiled } = applyOptional(field, { compiled }));
-  ({ compiled } = applyDefaultValue(field, { compiled }));
-  ({ compiled } = applyDescription(field, { compiled }));
+  result = applyOptional(field, result);
+  result = applyDefaultValue(field, result);
+  result = applyDescription(field, result);
 
-  return { compiled };
+  return result;
 };

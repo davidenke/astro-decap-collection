@@ -12,4 +12,5 @@ import type { Transformer } from '../utils/transform.utils.js';
 // https://decapcms.org/docs/widgets/#map
 export const transformMapField: Transformer<CmsFieldBase & CmsFieldMap> = () => ({
   compiled: 'z.string()',
+  dependencies: ['z'],
 });
