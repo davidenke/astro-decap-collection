@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 
 import { defineConfig, type Plugin } from 'vite';
@@ -35,4 +35,13 @@ export default defineConfig(async () => ({
   ],
   // https://github.com/davidmyersdev/vite-plugin-node-polyfills/issues/25#issuecomment-1962228168
   resolve: { alias: { 'node:fs/promises': 'node-stdlib-browser/mock/empty' } },
+  // defined available examples
+  define: {
+    __EXAMPLES__: JSON.stringify(
+      readdirSync('public/examples').map(file => ({
+        href: `examples/${file}`,
+        name: file.replace(/\.yml$/, ''),
+      })),
+    ),
+  },
 }));

@@ -1,5 +1,3 @@
-/// <reference types="vite/client" />
-
 import hljs from 'highlight.js';
 import json from 'highlight.js/lib/languages/json';
 import ts from 'highlight.js/lib/languages/typescript';
@@ -87,15 +85,13 @@ window.updateInput = event => {
 
 // lists all examples from the `examples` folder
 window.initExamples = async () => {
-  const examples = Object.keys(import.meta.glob('/public/examples/*.yml'));
-  document.querySelector('#input > nav')!.innerHTML = examples
-    .map(path => {
-      const [, , folder, name] = path.split('/');
-      return `
-        <button data-example="${`${folder}/${name}`}" onclick="window.handleClick(event)">
-          ${name.replace(/\.yml$/, '')} example
-        </button>`;
-    })
+  document.querySelector('#input > nav')!.innerHTML = __EXAMPLES__
+    .map(
+      ({ href, name }) => `
+        <button data-example="${href}" onclick="window.handleClick(event)">
+          ${name} example
+        </button>`,
+    )
     .join('');
 };
 
