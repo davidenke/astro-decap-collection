@@ -18,11 +18,11 @@ export default eslintTs.config(
     },
     rules: {
       'linebreak-style': ['error', 'unix'],
-      quotes: ['error', 'single'],
+      quotes: ['error', 'single', { avoidEscape: true }],
       semi: ['error', 'always'],
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
-      'prettier/prettier': ['error'],
+      'prettier/prettier': ['error', { singleQuote: true }],
       'unused-imports/no-unused-imports': 'error',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-vars': [
