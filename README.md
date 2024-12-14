@@ -21,21 +21,9 @@ pnpm add -D astro-decap-collection
 yarn add -D astro-decap-collection
 ```
 
-## Usage
-
-This module can either be used as a CLI tool or as a programmatic library.
-
-| cli                                                         | programmatic                                                        |
-| ----------------------------------------------------------- | ------------------------------------------------------------------- |
-| 1. Run cli tool to generate the zod schema                  | 1. Load or import your Decap config file manually                   |
-| 2. Load the generated schema in the Astro collection config | 2. Transform Decap config into zod schema                           |
-|                                                             | 3. Provide the zod schema at runtime in the Astro collection config |
-
-### Cli usage
+### Usage
 
 Transform the Decap config at build time and use the generated Zod schema. This allows Astro to validate the given data and provides types as well.
-
-> This is the recommended way to use this module.
 
 | Option           | Description                                                                                                                                 |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -89,31 +77,6 @@ The `--naming` option can be used to define a naming pattern for the generated f
 For the time being, the following placeholders are supported:
 
 - `%%name%%` - The name of the collection from the Decap config
-
-### Programmatic usage
-
-This wont get you types, but you can still validate content against the schema.
-
-```typescript
-import {
-  getCollection,
-  loadDecapConfig,
-  prepareSchema,
-  transformCollection,
-} from 'astro-decap-collection';
-import { defineCollection, z as zod } from 'astro:content';
-import { fileURLToPath } from 'node:url';
-
-// load Decap config and transform it at runtime
-const configURL = fileURLToPath(new URL('../../public/admin/config.yml', import.meta.url));
-const config = await loadDecapConfig(configURL);
-const collection = getCollection(config, 'blog')!;
-const schema = await transformCollection(collection, { zod });
-
-export const collections = {
-  blog: defineCollection(prepareSchema(schema.runtime)),
-};
-```
 
 ## Local development
 
