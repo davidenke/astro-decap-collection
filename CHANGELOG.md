@@ -1,5 +1,21 @@
 # Astro Decap Collection
 
+# [0.3.0](https://github.com/davidenke/astro-decap-collection/compare/0.2.2...0.3.0) (2024-12-14)
+
+
+### Bug Fixes
+
+* **demo:** add example paths at build time ([be6c1ab](https://github.com/davidenke/astro-decap-collection/commit/be6c1abb682dce448f4f87b023f82f6d210de108))
+* **demo:** inline svgs and align color ([c6d6339](https://github.com/davidenke/astro-decap-collection/commit/c6d63392fb70968772228bb79e5ed7bb1b03b07f))
+
+
+### Features
+
+* add transform dependencies ([42052f4](https://github.com/davidenke/astro-decap-collection/commit/42052f4cf5798fbe288bdac206f820baf28ea5a3))
+* **demo:** list and use all available examples ([71bd46b](https://github.com/davidenke/astro-decap-collection/commit/71bd46bd11497617eff5835e7bc2d95012e369c1))
+* **relation:** [#2](https://github.com/davidenke/astro-decap-collection/issues/2) Implements relation transformer ([1d8ff62](https://github.com/davidenke/astro-decap-collection/commit/1d8ff62fb551af670b61451b47006a0e485ffc37)), closes [#3](https://github.com/davidenke/astro-decap-collection/issues/3)
+* remove runtime types ([ad2cf92](https://github.com/davidenke/astro-decap-collection/commit/ad2cf926ff080ec7523f140673aabb839f086f6e))
+
 ## [0.2.2](https://github.com/davidenke/astro-decap-collection/compare/0.2.1...0.2.2) (2024-12-11)
 
 
