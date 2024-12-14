@@ -72,8 +72,9 @@ header {
     align-items: center;
     justify-content: center;
 
-    img {
+    svg {
       height: 2em;
+      fill: currentcolor;
     }
   }
 }
@@ -99,7 +100,7 @@ h1 {
   font-size: 1.5em;
 }
 
-a:visited {
+a {
   color: currentcolor;
 }
 
