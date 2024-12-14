@@ -1,53 +1,38 @@
 import type { CmsFieldBase, CmsFieldList } from 'decap-cms-core';
-import type { ZodArray, ZodDiscriminatedUnion, ZodLiteral, ZodObject } from 'zod';
 
 import type { Transformer, TransformResult } from '../utils/transform.utils.js';
 import { transformField } from './field.transform.js';
 import { transformObjectField } from './field-object.transform.js';
 
-type ZodListItem = ZodObject<any> & ZodLiteral<string>;
-
 // Lists are either spread by a single repeatable field, or by a list of fields.
 // Additionally, instead of fields, we can have a list of types.
 // https://decapcms.org/docs/widgets/#list
 // https://decapcms.org/docs/widgets/#Variable%20Type%20Widgets
-export const transformListField: Transformer<
-  ZodArray<any | ZodDiscriminatedUnion<'type', ZodObject<any>[]>>,
-  CmsFieldBase & CmsFieldList
-> = ({ field = {} as CmsFieldBase, fields, types }, z) => {
+export const transformListField: Transformer<CmsFieldBase & CmsFieldList> = ({
+  field = {} as CmsFieldBase,
+  fields,
+  types,
+}) => {
   // handle type list
   if (Array.isArray(types)) {
-    const items = types.map((type): TransformResult<ZodListItem> => {
+    const items = types.map((type): TransformResult => {
       // transform first
-      const item = transformObjectField(type, z);
+      const item = transformObjectField(type);
       // extend with type discriminator
-      return {
-        runtime: (item.runtime as any).extend({ type: z.literal(type.name) }),
-        cptime: `${item.cptime}.extend({type: z.literal('${type.name}')})`,
-      };
+      return { compiled: `${item.compiled}.extend({type: z.literal('${type.name}')})` };
     });
-    const runtime = z.array(
-      z.discriminatedUnion(
-        'type',
-        items.map(t => t.runtime) as [ZodListItem, ZodListItem, ...ZodListItem[]],
-      ),
-    );
-    const cptime = `z.array(z.discriminatedUnion('type', [${items.map(t => t.cptime).join(',')}]))`;
-
-    return { runtime, cptime };
+    return {
+      compiled: `z.array(z.discriminatedUnion('type', [${items.map(t => t.compiled).join(',')}]))`,
+    };
   }
 
   // handle fields list
   if (Array.isArray(fields)) {
-    const items = transformObjectField({ fields } as any, z);
-    const runtime = z.array(items.runtime);
-    const cptime = `z.array(${items.cptime})`;
-    return { runtime, cptime };
+    const items = transformObjectField({ fields } as any);
+    return { compiled: `z.array(${items.compiled})` };
   }
 
   // handle single field (or never) list
-  const item = transformField(field, z);
-  const runtime = z.array(item.runtime);
-  const cptime = `z.array(${item.cptime})`;
-  return { runtime, cptime };
+  const item = transformField(field);
+  return { compiled: `z.array(${item.compiled})` };
 };

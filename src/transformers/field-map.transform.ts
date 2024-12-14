@@ -1,5 +1,4 @@
 import type { CmsFieldBase, CmsFieldMap } from 'decap-cms-core';
-import type { ZodString } from 'zod';
 
 import type { Transformer } from '../utils/transform.utils.js';
 
@@ -11,7 +10,6 @@ import type { Transformer } from '../utils/transform.utils.js';
 // });
 // → https://zod.dev/?id=refine
 // https://decapcms.org/docs/widgets/#map
-export const transformMapField: Transformer<ZodString, CmsFieldBase & CmsFieldMap> = (_, z) => ({
-  runtime: z.string(),
-  cptime: 'z.string()',
+export const transformMapField: Transformer<CmsFieldBase & CmsFieldMap> = () => ({
+  compiled: 'z.string()',
 });

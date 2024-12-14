@@ -15,7 +15,6 @@ import { transformCollection } from './utils/transform.utils.js';
 enum ERROR {
   MISSING_CONFIG = 'Missing config path. Please provide a path to the Decap config.yml file as positional.',
   MISSING_TARGET = 'Missing required argument: --target. Please provide a path where the collections will be stored.',
-  ZOD_MISSING = 'Zod is required for schema validation. Please install it by running `npm install zod`.',
   PARSING_FAILED = 'Failed to parse the Decap config file.',
   FORMATTING_FAILED = 'Failed to format the generated schema.',
   WRITING_FAILED = 'Failed to write the generated schema to the target folder.',
@@ -45,14 +44,13 @@ export async function loadAndTransformCollections(
   naming = 'config.%%name%%.ts',
   isUpdate = false,
 ) {
-  const zod = await tryOrFail(() => import('zod'), ERROR.ZOD_MISSING);
   const config = await tryOrFail(() => loadDecapConfig(from), ERROR.PARSING_FAILED);
   const { collections = [] } = config ?? {};
 
   await Promise.all(
     collections.map(async collection => {
       // transform collection
-      const { cptime } = transformCollection(collection, { zod });
+      const { compiled: cptime } = transformCollection(collection);
       const keys = { name: collection.name };
       const name = naming.replace(/%%(\w+)%%/, (_, k: keyof typeof keys) => keys[k] ?? _);
       const path = resolve(to, name);

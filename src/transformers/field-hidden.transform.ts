@@ -3,20 +3,8 @@ import type { CmsFieldBase, CmsFieldHidden } from 'decap-cms-core';
 import type { Transformer } from '../utils/transform.utils.js';
 
 // https://decapcms.org/docs/widgets/#hidden
-// TODO could this be moved into a custom schema? → https://zod.dev/?id=custom-schemas
-export const transformHiddenField: Transformer<Zod.ZodType, CmsFieldBase & CmsFieldHidden> = (
-  _,
-  z,
-) => ({
-  runtime: z.lazy(() => {
-    // https://zod.dev/?id=json-type
-    const literal = z.union([z.string(), z.number(), z.boolean(), z.null()]);
-    type Literal = Zod.infer<typeof literal>;
-    type Json = Literal | { [key: string]: Json } | Json[];
-    const json: Zod.ZodType<Json> = z.lazy(() => z.union([literal, z.array(json), z.record(json)]));
-    return json;
-  }),
-  cptime: `z.lazy(() => {
+export const transformHiddenField: Transformer<CmsFieldBase & CmsFieldHidden> = () => ({
+  compiled: `z.lazy(() => {
     const literal = z.union([z.string(), z.number(), z.boolean(), z.null()]);
     type Literal = Zod.infer<typeof literal>;
     type Json = Literal | { [key: string]: Json } | Json[];

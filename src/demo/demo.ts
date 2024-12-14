@@ -55,7 +55,7 @@ window.handleInput = async event => {
 
   const schemas = await Promise.all(
     collections.map(async collection => {
-      const { cptime } = transformCollection(collection, { zod });
+      const { compiled: cptime } = transformCollection(collection, { zod });
       return [collection.name, await formatCode(cptime, undefined, { printWidth: 50 })];
     }),
   );

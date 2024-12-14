@@ -1,5 +1,4 @@
 import type * as Decap from 'decap-cms-core';
-import type * as Zod from 'zod';
 
 import type { DecapWidgetType } from '../utils/decap.utils.js';
 import {
@@ -23,81 +22,76 @@ import { transformRelationField } from './field-relation.transform.js';
 import { transformSelectField } from './field-select.transform.js';
 import { transformStringField } from './field-string.transform.js';
 
-export const transformField: Transformer = (field, z) => {
+export const transformField: Transformer = field => {
   const knownWidgets = field.widget as DecapWidgetType;
-  const applyTransform = (
-    field: Decap.CmsField,
-    transformer: Transformer<any, any>,
-    z: typeof Zod,
-  ): TransformResult => transformer(field, z);
-
-  let runtime: Zod.ZodType;
-  let cptime: string;
+  const applyTransform = (field: Decap.CmsField, transformer: Transformer<any>): TransformResult =>
+    transformer(field);
+  let compiled: string;
 
   switch (knownWidgets) {
     case 'color': // https://decapcms.org/docs/widgets/#color
     case 'markdown': // https://decapcms.org/docs/widgets/#markdown
     case 'string': // https://decapcms.org/docs/widgets/#string
     case 'text': // https://decapcms.org/docs/widgets/#text
-      ({ runtime, cptime } = applyTransform(field, transformStringField, z));
+      ({ compiled } = applyTransform(field, transformStringField));
       break;
 
     case 'file': // https://decapcms.org/docs/widgets/#file
     case 'image': // https://decapcms.org/docs/widgets/#image
-      ({ runtime, cptime } = applyTransform(field, transformFileField, z));
+      ({ compiled } = applyTransform(field, transformFileField));
       break;
 
     case 'datetime': // https://decapcms.org/docs/widgets/#datetime
-      ({ runtime, cptime } = applyTransform(field, transformDateTimeField, z));
+      ({ compiled } = applyTransform(field, transformDateTimeField));
       break;
 
     case 'code': // https://decapcms.org/docs/widgets/#code
-      ({ runtime, cptime } = applyTransform(field, transformCodeField, z));
+      ({ compiled } = applyTransform(field, transformCodeField));
       break;
 
     case 'hidden': // https://decapcms.org/docs/widgets/#hidden
-      ({ runtime, cptime } = applyTransform(field, transformHiddenField, z));
+      ({ compiled } = applyTransform(field, transformHiddenField));
       break;
 
     case 'map': // https://decapcms.org/docs/widgets/#map
-      ({ runtime, cptime } = applyTransform(field, transformMapField, z));
+      ({ compiled } = applyTransform(field, transformMapField));
       break;
 
     case 'relation': // https://decapcms.org/docs/widgets/#relation
-      ({ runtime, cptime } = applyTransform(field, transformRelationField, z));
+      ({ compiled } = applyTransform(field, transformRelationField));
       break;
 
     case 'number': // https://decapcms.org/docs/widgets/#number
-      ({ runtime, cptime } = applyTransform(field, transformNumberField, z));
+      ({ compiled } = applyTransform(field, transformNumberField));
       break;
 
     case 'boolean': // https://decapcms.org/docs/widgets/#boolean
-      ({ runtime, cptime } = applyTransform(field, transformBooleanField, z));
+      ({ compiled } = applyTransform(field, transformBooleanField));
       break;
 
     case 'select': // https://decapcms.org/docs/widgets/#select
-      ({ runtime, cptime } = applyTransform(field, transformSelectField, z));
+      ({ compiled } = applyTransform(field, transformSelectField));
       break;
 
     case 'object': // https://decapcms.org/docs/widgets/#object
-      ({ runtime, cptime } = applyTransform(field, transformObjectField, z));
+      ({ compiled } = applyTransform(field, transformObjectField));
       break;
 
     case 'list': // https://decapcms.org/docs/widgets/#list
-      ({ runtime, cptime } = applyTransform(field, transformListField, z));
+      ({ compiled } = applyTransform(field, transformListField));
       break;
 
     default:
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       (_exhaustiveCheck: never = knownWidgets) => null;
-      ({ runtime, cptime } = transformNeverField(field, z));
+      ({ compiled } = transformNeverField(field));
       break;
   }
 
   // flag field as optional, set a default value and add a description if available
-  ({ cptime, runtime } = applyOptional(field, { cptime, runtime }));
-  ({ cptime, runtime } = applyDefaultValue(field, { cptime, runtime }));
-  ({ cptime, runtime } = applyDescription(field, { cptime, runtime }));
+  ({ compiled } = applyOptional(field, { compiled }));
+  ({ compiled } = applyDefaultValue(field, { compiled }));
+  ({ compiled } = applyDescription(field, { compiled }));
 
-  return { runtime, cptime };
+  return { compiled };
 };

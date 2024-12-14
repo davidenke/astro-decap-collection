@@ -1,31 +1,19 @@
 import type * as Decap from 'decap-cms-core';
-import type * as Zod from 'zod';
 
 import { transformObjectField } from '../transformers/field-object.transform.js';
-
-export type TransformOptions = {
-  /**
-   * Defines a custom Zod instance to be used.
-   */
-  zod: typeof Zod;
-};
 
 /**
  * Utility type defining a transformer function.
  */
-export type Transformer<R = Zod.ZodType, F = Decap.CmsField> = (
-  field: F,
-  z: typeof Zod,
-) => TransformResult<R>;
+export type Transformer<F = Decap.CmsField> = (field: F) => TransformResult;
 
 /**
  * Utility type defining the result of a transformation.
  * It consists of a Zod runtime type and a string representation of the Zod schema.
  * The latter is used to generate the content of a TypeScript file.
  */
-export type TransformResult<R = Zod.ZodType> = {
-  runtime: R;
-  cptime: string;
+export type TransformResult = {
+  compiled: string;
 };
 
 /**
@@ -37,8 +25,7 @@ export function applyOptional(field: Decap.CmsField, result: TransformResult): T
   // fyi: https://gist.github.com/ciiqr/ee19e9ff3bb603f8c42b00f5ad8c551e
   if (field.required === false) {
     return {
-      runtime: result.runtime.nullish(),
-      cptime: `${result.cptime}.nullish()`,
+      compiled: `${result.compiled}.nullish()`,
     };
   }
   return result;
@@ -56,8 +43,7 @@ export function applyDefaultValue(field: Decap.CmsField, result: TransformResult
 
   // set default value
   return {
-    runtime: result.runtime.default(def),
-    cptime: `${result.cptime}.default(${JSON.stringify(def)})`,
+    compiled: `${result.compiled}.default(${JSON.stringify(def)})`,
   };
 }
 
@@ -71,18 +57,14 @@ export function applyDescription(field: Decap.CmsField, result: TransformResult)
 
   // set a description
   return {
-    runtime: result.runtime.describe(description),
-    cptime: `${result.cptime}.describe('${description}')`,
+    compiled: `${result.compiled}.describe('${description}')`,
   };
 }
 
 /**
  * Transforms a Decap CMS collection config into an Astro collection schema.
  */
-export function transformCollection(
-  collection: Decap.CmsCollection,
-  { zod }: TransformOptions,
-): TransformResult {
+export function transformCollection(collection: Decap.CmsCollection): TransformResult {
   // There's another specialty on the Decap menu: if the collection format is 'frontmatter'
   // (or not set / `undefined`), then a field can be defined to parse the markdown body. All
   // other formats having bodies are documented to not parse the body at all. This means, we
@@ -100,7 +82,7 @@ export function transformCollection(
   if ('folder' in collection) {
     const { name, fields = [] } = collection;
     const field = { name, fields, widget: 'object' as const };
-    return transformObjectField(field, zod);
+    return transformObjectField(field);
   }
 
   // file collections are for now union types of all defined types; that might
@@ -110,17 +92,16 @@ export function transformCollection(
     const results = collection.files.map(file => {
       const { name, fields = [] } = file;
       const field = { name, fields, widget: 'object' as const };
-      return transformObjectField(field, zod);
+      return transformObjectField(field);
     });
     // single file collection is just the result
     if (results.length === 1) return results[0];
     // multiple file collection is a union of all results
     return {
-      cptime: `z.union([${results.map(({ cptime }) => cptime).join(', ')}])`,
-      runtime: zod.union(results.map(({ runtime }) => runtime) as any),
+      compiled: `z.union([${results.map(({ compiled: cptime }) => cptime).join(', ')}])`,
     };
   }
 
   // a collection without a folder OR a file list is invalid, thus we define `never`
-  return { runtime: zod.never(), cptime: 'z.never()' };
+  return { compiled: 'z.never()' };
 }
