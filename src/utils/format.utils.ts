@@ -33,3 +33,10 @@ export async function formatCode(
 export function escapeString(input: string): string {
   return input.replace(/'/g, "\\'");
 }
+
+// object keys can either be strings or identifiers, the latter
+// are more common and can be used without quotes
+export function getObjectKey(name: string): string {
+  const isIdentifier = /^[a-zA-Z_$][\w$]*$/.test(name);
+  return isIdentifier ? name : `['${escapeString(name)}']`;
+}
