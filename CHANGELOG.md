@@ -1,5 +1,14 @@
 # Astro Decap Collection
 
+## [0.3.1](https://github.com/davidenke/astro-decap-collection/compare/0.3.0...0.3.1) (2024-12-17)
+
+
+### Bug Fixes
+
+* sanitize descriptions ([6c0b848](https://github.com/davidenke/astro-decap-collection/commit/6c0b8486f1cacf6fada66d4a0afa9f830087faa1)), closes [#5](https://github.com/davidenke/astro-decap-collection/issues/5) [#4](https://github.com/davidenke/astro-decap-collection/issues/4)
+* sanitize enum values ([0ec1c26](https://github.com/davidenke/astro-decap-collection/commit/0ec1c26d0c45f5133dc0dc13b654046cb9eb936d))
+* sanitize object keys ([57c87a6](https://github.com/davidenke/astro-decap-collection/commit/57c87a653b5db1260f49ab35c50841dd3c3796a3))
+
 # [0.3.0](https://github.com/davidenke/astro-decap-collection/compare/0.2.2...0.3.0) (2024-12-14)
 
 
