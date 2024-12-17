@@ -19,10 +19,10 @@ collections:
       - { label: "Layout", name: "layout", widget: "hidden", default: "blog" }
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Published", name: "published", widget: "boolean" }
-      - { label: "Color", name: "color", widget: "color", enableAlpha: true }
-      - { label: "Place", name: "place", widget: "map", hint: "Set a location" }
+      - { label: "Color", name: "co\"lor", widget: "color", enableAlpha: true }
+      - { label: "Place", name: "place(s)", widget: "map", hint: "Set a location" }
       - { label: "Publish Date", name: "date", widget: "datetime" }
-      - { label: "Featured Image(s)", name: "thumbnail", widget: "image" }
+      - { label: "Featured Image(s)", name: "thumbnail's", widget: "image" }
       - { label: "Rating", name: "rating", widget: "number", min: 1, max: 5 }
       - { label: "Code", name: "code", widget: "code", output_code_only: true }
       - { label: "Body", name: "body", widget: "markdown" }
@@ -39,9 +39,9 @@ collections:
         fields:
           - {
               label: Quote,
-              name: quote,
+              name: qu"ote,
               widget: string,
-              default: "Everything is awesome!",
+              default: "\"Everything\" is awesome!",
             }
           - { label: Author, name: author, widget: string }
       - name: "typo"
