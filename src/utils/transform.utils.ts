@@ -1,6 +1,7 @@
 import type * as Decap from 'decap-cms-core';
 
 import { transformObjectField } from '../transformers/field-object.transform.js';
+import { escapeString } from './format.utils.js';
 
 /**
  * Utility type defining a transformer function.
@@ -64,7 +65,7 @@ export function applyDescription(field: Decap.CmsField, result: TransformResult)
 
   // set a description
   return {
-    compiled: `${result.compiled}.describe('${description}')`,
+    compiled: `${result.compiled}.describe('${escapeString(description)}')`,
     dependencies: ['z', ...result.dependencies],
   };
 }
