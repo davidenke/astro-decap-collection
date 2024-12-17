@@ -1,0 +1,17 @@
+﻿collections:
+  - name: "example"
+    label: "Example Case"
+    folder: "src/content/examples"
+    fields:
+      - name: "control_field"
+        label: "control string"
+        widget: "hidden"
+      - name: "single_quote_field"
+        label: "string containing ' quote"
+        widget: "hidden"
+      - name: "double_quote_field"
+        label: 'string containing " quote'
+        widget: "hidden"
+      - name: "tick_quote_field"
+        label: "string containing ` quote"
+        widget: "hidden"
