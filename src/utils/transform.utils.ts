@@ -61,10 +61,11 @@ export function applyDescription(field: Decap.CmsField, result: TransformResult)
   // derive potential description
   const description = field.hint ?? field.label ?? field.name;
   if (description === undefined) return result;
+  const safeDescription = description.replace(/'/g, "\\'");
 
   // set a description
   return {
-    compiled: `${result.compiled}.describe('${description}')`,
+    compiled: `${result.compiled}.describe('${safeDescription}')`,
     dependencies: ['z', ...result.dependencies],
   };
 }
