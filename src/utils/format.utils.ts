@@ -27,3 +27,9 @@ export async function formatCode(
   const plugins = imports.map(i => i.default);
   return prettier.format(code, { ...defaults, ...options, parser: 'typescript', plugins });
 }
+
+// as we do not know about string contents, we need to sanitize them - thus, we
+// can safely use single quotes for delimiting strings in the generated code
+export function escapeString(input: string): string {
+  return input.replace(/'/g, "\\'");
+}
