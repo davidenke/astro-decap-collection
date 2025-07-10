@@ -1,5 +1,5 @@
 import type { CmsField, CmsFieldBase, CmsFieldList } from 'decap-cms-core';
-import * as z from 'zod';
+import * as z from 'zod/v3';
 
 import { transformListField } from './field-list.transform.js';
 

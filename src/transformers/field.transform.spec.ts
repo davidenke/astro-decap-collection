@@ -1,5 +1,5 @@
 import * as Decap from 'decap-cms-core';
-import * as z from 'zod';
+import * as z from 'zod/v3';
 
 import type { Transformer } from '../utils/transform.utils.js';
 import { transformField } from './field.transform.js';
