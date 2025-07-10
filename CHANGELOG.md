@@ -1,5 +1,12 @@
 # Astro Decap Collection
 
+# [0.4.0](https://github.com/davidenke/astro-decap-collection/compare/0.3.1...0.4.0) (2025-07-10)
+
+
+### Features
+
+* update dependencies ([a4d53d3](https://github.com/davidenke/astro-decap-collection/commit/a4d53d33415183c710cab8672ab61d02e50638de))
+
 ## [0.3.1](https://github.com/davidenke/astro-decap-collection/compare/0.3.0...0.3.1) (2024-12-17)
 
 ### Bug Fixes
