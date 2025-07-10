@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import hljs from 'highlight.js';
 import json from 'highlight.js/lib/languages/json';
 import ts from 'highlight.js/lib/languages/typescript';

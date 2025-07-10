@@ -14,13 +14,13 @@ export type Transformer<F = Decap.CmsField> = (field: F) => TransformResult;
  * dependencies to the generated astro content module. The latter usually
  * contains the `z` (zod) re-export of the Astro runtime.
  */
-export type TransformResult = {
+export interface TransformResult {
   // the compiled result as string
   compiled: string;
   // the optional list of dependencies - as we want this to be explicitly optional,
   // one must return at least an empty array if really no dependencies are required
   dependencies: string[];
-};
+}
 
 /**
  * Flags a field as optional if it is not required.
@@ -42,6 +42,7 @@ export function applyOptional(field: Decap.CmsField, result: TransformResult): T
  * Sets a default value if reasonable.
  */
 export function applyDefaultValue(field: Decap.CmsField, result: TransformResult): TransformResult {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { default: def } = field as { default?: any };
   // cannot set null as default value on mandatory fields
   if (def === undefined || (def === null && field.required)) {

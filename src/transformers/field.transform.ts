@@ -1,13 +1,8 @@
 import type * as Decap from 'decap-cms-core';
 
 import type { DecapWidgetType } from '../utils/decap.utils.js';
-import {
-  applyDefaultValue,
-  applyDescription,
-  applyOptional,
-  type Transformer,
-  type TransformResult,
-} from '../utils/transform.utils.js';
+import type { Transformer, TransformResult } from '../utils/transform.utils.js';
+import { applyDefaultValue, applyDescription, applyOptional } from '../utils/transform.utils.js';
 import { transformBooleanField } from './field-boolean.transform.js';
 import { transformCodeField } from './field-code.transform.js';
 import { transformDateTimeField } from './field-date-time.transform.js';
@@ -24,6 +19,7 @@ import { transformStringField } from './field-string.transform.js';
 
 export const transformField: Transformer = field => {
   const knownWidgets = field.widget as DecapWidgetType;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const applyTransform = (field: Decap.CmsField, transformer: Transformer<any>): TransformResult =>
     transformer(field);
   let result: TransformResult;

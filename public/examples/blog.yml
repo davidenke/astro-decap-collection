@@ -1,4 +1,4 @@
-locale: "de"
+locale: 'de'
 
 backend:
   name: git-gateway
@@ -7,80 +7,75 @@ backend:
 publish_mode: editorial_workflow
 
 # Define media and upload paths
-media_folder: "/public/media"
-public_folder: "/public/media"
+media_folder: '/public/media'
+public_folder: '/public/media'
 
 collections:
-  - name: "blog"
-    label: "Blog"
-    folder: "src/content/blog"
+  - name: 'blog'
+    label: 'Blog'
+    folder: 'src/content/blog'
     create: true
     fields:
-      - { label: "Layout", name: "layout", widget: "hidden", default: "blog" }
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Published", name: "published", widget: "boolean" }
-      - { label: "Color", name: "co\"lor", widget: "color", enableAlpha: true }
-      - { label: "Place", name: "place(s)", widget: "map", hint: "Set a location" }
-      - { label: "Publish Date", name: "date", widget: "datetime" }
-      - { label: "Featured Image(s)", name: "thumbnail's", widget: "image" }
-      - { label: "Rating", name: "rating", widget: "number", min: 1, max: 5 }
-      - { label: "Code", name: "code", widget: "code", output_code_only: true }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: 'Layout', name: 'layout', widget: 'hidden', default: 'blog' }
+      - { label: 'Title', name: 'title', widget: 'string' }
+      - { label: 'Published', name: 'published', widget: 'boolean' }
+      - { label: 'Color', name: 'co"lor', widget: 'color', enableAlpha: true }
+      - { label: 'Place', name: 'place(s)', widget: 'map', hint: 'Set a location' }
+      - { label: 'Publish Date', name: 'date', widget: 'datetime' }
+      - { label: 'Featured Image(s)', name: "thumbnail's", widget: 'image' }
+      - { label: 'Rating', name: 'rating', widget: 'number', min: 1, max: 5 }
+      - { label: 'Code', name: 'code', widget: 'code', output_code_only: true }
+      - { label: 'Body', name: 'body', widget: 'markdown' }
       # list examples
-      - label: "Avatars"
-        name: "avatars"
-        widget: "list"
-        summary: "{{fields.avatar}}"
+      - label: 'Avatars'
+        name: 'avatars'
+        widget: 'list'
+        summary: '{{fields.avatar}}'
         field: { label: Avatar, name: avatar, widget: image }
-      - label: "Testimonials"
-        name: "testimonials"
+      - label: 'Testimonials'
+        name: 'testimonials'
         minimize_collapsed: true
-        widget: "list"
+        widget: 'list'
         fields:
-          - {
-              label: Quote,
-              name: qu"ote,
-              widget: string,
-              default: "\"Everything\" is awesome!",
-            }
+          - { label: Quote, name: qu"ote, widget: string, default: '"Everything" is awesome!' }
           - { label: Author, name: author, widget: string }
-      - name: "typo"
-        label: "Typography"
-        widget: "list"
+      - name: 'typo'
+        label: 'Typography'
+        widget: 'list'
         types:
-          - name: "heading"
-            label: "Heading"
-            widget: "object"
+          - name: 'heading'
+            label: 'Heading'
+            widget: 'object'
             fields:
-              - name: "text"
-                label: "Text"
-                widget: "text"
-              - name: "level"
-                label: "Level"
-                widget: "number"
+              - name: 'text'
+                label: 'Text'
+                widget: 'text'
+              - name: 'level'
+                label: 'Level'
+                widget: 'number'
                 default: 1
                 min: 1
                 max: 6
-              - name: "style"
-                label: "Style"
-                widget: "select"
-                default: ""
+              - name: 'style'
+                label: 'Style'
+                widget: 'select'
+                default: ''
                 options:
-                  - { label: "None", value: "" }
-                  - { label: "Title", value: "title" }
-          - name: "text"
-            label: "Text"
-            widget: "object"
+                  - { label: 'None', value: '' }
+                  - { label: 'Title', value: 'title' }
+          - name: 'text'
+            label: 'Text'
+            widget: 'object'
             fields:
-              - name: "text"
-                label: "Text"
-                widget: "markdown"
+              - name: 'text'
+                label: 'Text'
+                widget: 'markdown'
                 minimal: true
-                buttons: ["link"]
-              - name: "style"
-                label: "Style"
-                widget: "select"
-                default: "body"
+                buttons: ['link']
+              - name: 'style'
+                label: 'Style'
+                widget: 'select'
+                default: 'body'
                 options:
-                  - { label: "Lead", value: "lead" }
-                  - { label: "Body", value: "body" }
+                  - { label: 'Lead', value: 'lead' }
+                  - { label: 'Body', value: 'body' }

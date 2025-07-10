@@ -1,4 +1,6 @@
-import { transpileModule, type TranspileOptions } from 'typescript';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { TranspileOptions } from 'typescript';
+import { transpileModule } from 'typescript';
 import z from 'zod';
 
 import tsConfig from './tsconfig.json';

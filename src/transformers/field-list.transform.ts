@@ -32,17 +32,12 @@ export const transformListField: Transformer<CmsFieldBase & CmsFieldList> = ({
 
   // handle fields list
   if (Array.isArray(fields)) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const items = transformObjectField({ fields } as any);
-    return {
-      compiled: `z.array(${items.compiled})`,
-      dependencies: ['z', ...items.dependencies],
-    };
+    return { compiled: `z.array(${items.compiled})`, dependencies: ['z', ...items.dependencies] };
   }
 
   // handle single field (or never) list
   const item = transformField(field);
-  return {
-    compiled: `z.array(${item.compiled})`,
-    dependencies: ['z', ...item.dependencies],
-  };
+  return { compiled: `z.array(${item.compiled})`, dependencies: ['z', ...item.dependencies] };
 };

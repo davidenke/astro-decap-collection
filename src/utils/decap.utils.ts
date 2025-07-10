@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any, @typescript-eslint/no-dynamic-delete */
 import type { CmsCollection, CmsConfig } from 'decap-cms-core';
 
 // TODO use the CmsField['widget'] type from decap-cms-core but exclude the generic string somehow

@@ -120,6 +120,7 @@ async function run() {
             await loadAndTransformCollections(config, target, naming, true);
           }
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         // throw error if not aborted
         if (error?.name === 'AbortError') exit(0);

@@ -8,6 +8,7 @@ describe('field-string.transform', () => {
     const field = { name: 'foo', widget: 'code' } as CmsFieldBase & CmsFieldCode;
     const { compiled } = transformCodeField(field);
     const runtime = parseShape(compiled, { z });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { shape } = runtime as unknown as z.ZodObject<any>;
     expect(shape).toHaveProperty('code');
     expect(shape).toHaveProperty('language');

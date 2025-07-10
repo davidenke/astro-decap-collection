@@ -7,7 +7,7 @@
  */
 export async function decompressRaw(binary: string, encoding: CompressionFormat): Promise<string> {
   // stream the string through the decompressor
-  const stream = new Blob([Uint8Array.from(binary, m => m.codePointAt(0)!)])
+  const stream = new Blob([Uint8Array.from(binary, m => m.codePointAt(0) ?? 0)])
     .stream()
     .pipeThrough(new DecompressionStream(encoding));
   // convert the stream to a string
