@@ -1,5 +1,12 @@
 # Astro Decap Collection
 
+# [0.5.0](https://github.com/davidenke/astro-decap-collection/compare/0.4.0...0.5.0) (2026-03-23)
+
+
+### Features
+
+* zod 4 compatibility ([ac58a75](https://github.com/davidenke/astro-decap-collection/commit/ac58a75989a7448da10f418a47da6fa699192977))
+
 # [0.4.0](https://github.com/davidenke/astro-decap-collection/compare/0.3.1...0.4.0) (2025-07-10)
 
 
