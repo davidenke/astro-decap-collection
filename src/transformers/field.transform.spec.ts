@@ -34,7 +34,7 @@ describe('field.transform', () => {
 
     it('exposes a Zod object at runtime', () => {
       const runtime = parseShape(transformField(field).compiled, { z });
-      expect(runtime).toBeInstanceOf(z.ZodString);
+      expect(runtime.def.type).toBe('string');
     });
 
     it('adds a description', () => {
@@ -53,27 +53,27 @@ describe('field.transform', () => {
   });
 
   describe.each`
-    transform                   | widget        | runtype         | extras                          | desc
-    ${'transformBooleanField'}  | ${'boolean'}  | ${z.ZodBoolean} | ${{}}                           | ${''}
-    ${'transformCodeField'}     | ${'code'}     | ${z.ZodObject}  | ${{ output_code_only: false }}  | ${'as object'}
-    ${'transformCodeField'}     | ${'code'}     | ${z.ZodString}  | ${{ output_code_only: true }}   | ${'as string'}
-    ${'transformDateTimeField'} | ${'datetime'} | ${z.ZodDate}    | ${{}}                           | ${''}
-    ${'transformFileField'}     | ${'file'}     | ${z.ZodString}  | ${{}}                           | ${'for file widget'}
-    ${'transformFileField'}     | ${'image'}    | ${z.ZodString}  | ${{}}                           | ${'for image widget'}
-    ${'transformHiddenField'}   | ${'hidden'}   | ${z.ZodLazy}    | ${{}}                           | ${''}
-    ${'transformListField'}     | ${'list'}     | ${z.ZodArray}   | ${{ types: [] }}                | ${''}
-    ${'transformMapField'}      | ${'map'}      | ${z.ZodString}  | ${{}}                           | ${''}
-    ${'transformNeverField'}    | ${undefined}  | ${z.ZodNever}   | ${{}}                           | ${''}
-    ${'transformNumberField'}   | ${'number'}   | ${z.ZodNumber}  | ${{}}                           | ${''}
-    ${'transformRelationField'} | ${'relation'} | ${z.ZodString}  | ${{}}                           | ${''}
-    ${'transformObjectField'}   | ${'object'}   | ${z.ZodObject}  | ${{ fields: [] }}               | ${''}
-    ${'transformSelectField'}   | ${'select'}   | ${z.ZodEnum}    | ${{ options: ['a', 'b', 'c'] }} | ${''}
-    ${'transformStringField'}   | ${'color'}    | ${z.ZodString}  | ${{}}                           | ${'for color widget'}
-    ${'transformStringField'}   | ${'file'}     | ${z.ZodString}  | ${{}}                           | ${'for file widget'}
-    ${'transformStringField'}   | ${'image'}    | ${z.ZodString}  | ${{}}                           | ${'for image widget'}
-    ${'transformStringField'}   | ${'markdown'} | ${z.ZodString}  | ${{}}                           | ${'for markdown widget'}
-    ${'transformStringField'}   | ${'string'}   | ${z.ZodString}  | ${{}}                           | ${'for string widget'}
-    ${'transformStringField'}   | ${'text'}     | ${z.ZodString}  | ${{}}                           | ${'for text widget'}
+    transform                   | widget        | runtype         | extras                                      | desc
+    ${'transformBooleanField'}  | ${'boolean'}  | ${z.ZodBoolean} | ${{}}                                       | ${''}
+    ${'transformCodeField'}     | ${'code'}     | ${z.ZodObject}  | ${{ output_code_only: false }}              | ${'as object'}
+    ${'transformCodeField'}     | ${'code'}     | ${z.ZodString}  | ${{ output_code_only: true }}               | ${'as string'}
+    ${'transformDateTimeField'} | ${'datetime'} | ${z.ZodDate}    | ${{}}                                       | ${''}
+    ${'transformFileField'}     | ${'file'}     | ${z.ZodString}  | ${{}}                                       | ${'for file widget'}
+    ${'transformFileField'}     | ${'image'}    | ${z.ZodString}  | ${{}}                                       | ${'for image widget'}
+    ${'transformHiddenField'}   | ${'hidden'}   | ${z.ZodLazy}    | ${{}}                                       | ${''}
+    ${'transformListField'}     | ${'list'}     | ${z.ZodArray}   | ${{ types: [{ name: 'foo', fields: [] }] }} | ${''}
+    ${'transformMapField'}      | ${'map'}      | ${z.ZodString}  | ${{}}                                       | ${''}
+    ${'transformNeverField'}    | ${undefined}  | ${z.ZodNever}   | ${{}}                                       | ${''}
+    ${'transformNumberField'}   | ${'number'}   | ${z.ZodNumber}  | ${{}}                                       | ${''}
+    ${'transformRelationField'} | ${'relation'} | ${z.ZodString}  | ${{}}                                       | ${''}
+    ${'transformObjectField'}   | ${'object'}   | ${z.ZodObject}  | ${{ fields: [] }}                           | ${''}
+    ${'transformSelectField'}   | ${'select'}   | ${z.ZodEnum}    | ${{ options: ['a', 'b', 'c'] }}             | ${''}
+    ${'transformStringField'}   | ${'color'}    | ${z.ZodString}  | ${{}}                                       | ${'for color widget'}
+    ${'transformStringField'}   | ${'file'}     | ${z.ZodString}  | ${{}}                                       | ${'for file widget'}
+    ${'transformStringField'}   | ${'image'}    | ${z.ZodString}  | ${{}}                                       | ${'for image widget'}
+    ${'transformStringField'}   | ${'markdown'} | ${z.ZodString}  | ${{}}                                       | ${'for markdown widget'}
+    ${'transformStringField'}   | ${'string'}   | ${z.ZodString}  | ${{}}                                       | ${'for string widget'}
+    ${'transformStringField'}   | ${'text'}     | ${z.ZodString}  | ${{}}                                       | ${'for text widget'}
   `('$transform $descr', ({ desc, transform: fn, extras, runtype, widget }) => {
     const transform = transformers[fn as keyof typeof transformers] as Transformer;
     let field: Decap.CmsField;

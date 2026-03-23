@@ -16,7 +16,7 @@ describe('field-object.transform', () => {
     const { compiled } = transformObjectField(field);
     const runtime = parseShape(compiled, { z });
     const result = { foo: 'foo', bar: 123 };
-    expect(() => runtime.parse(result)).not.toThrow();
+    expect(() => z.parse(runtime, result)).not.toThrow();
   });
 
   it('flattens all nested dependencies', () => {

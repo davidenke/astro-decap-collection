@@ -13,7 +13,7 @@ describe('field-list.transform', () => {
     const { compiled } = transformListField(field);
     const runtime = parseShape(compiled, { z });
     const result = ['foo', 'bar', 'baz'];
-    expect(() => runtime.parse(result)).not.toThrow();
+    expect(() => z.parse(runtime, result)).not.toThrow();
   });
 
   it('allows parsing with fields based schema', () => {
@@ -28,7 +28,7 @@ describe('field-list.transform', () => {
     const { compiled } = transformListField(field);
     const runtime = parseShape(compiled, { z });
     const result = [{ foo: 'foo', bar: 123 }];
-    expect(() => runtime.parse(result)).not.toThrow();
+    expect(() => z.parse(runtime, result)).not.toThrow();
   });
 
   it('allows parsing with type based schema', () => {
@@ -48,6 +48,6 @@ describe('field-list.transform', () => {
     const { compiled } = transformListField(field);
     const runtime = parseShape(compiled, { z });
     const result = [{ type: 'foo', foo: 'foo', bar: 123 }];
-    expect(() => runtime.parse(result)).not.toThrow();
+    expect(() => z.parse(runtime, result)).not.toThrow();
   });
 });

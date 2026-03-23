@@ -21,7 +21,7 @@ describe('field-relation.transform', () => {
     const { compiled } = transformRelationField(field);
     const runtime = parseShape(compiled, { z, reference });
 
-    expect(runtime._def.typeName).toBe(z.ZodFirstPartyTypeKind.ZodString);
+    expect(runtime).toBeInstanceOf(z.ZodString);
     expect(compiled).toBe("reference('authors')");
     expect(() => runtime.parse('some-author-id')).not.toThrow();
     expect(() => runtime.parse(['not allowed'])).toThrow();
@@ -32,7 +32,7 @@ describe('field-relation.transform', () => {
     const { compiled } = transformRelationField(field);
     const runtime = parseShape(compiled, { z, reference });
 
-    expect(runtime._def.typeName).toBe(z.ZodFirstPartyTypeKind.ZodString);
+    expect(runtime).toBeInstanceOf(z.ZodString);
     expect(compiled).toBe("reference('authors')");
     expect(() => runtime.parse('some-author-id')).not.toThrow();
   });
@@ -42,7 +42,7 @@ describe('field-relation.transform', () => {
     const { compiled } = transformRelationField(field);
     const runtime = parseShape(compiled, { z, reference });
 
-    expect(runtime._def.typeName).toBe(z.ZodFirstPartyTypeKind.ZodArray);
+    expect(runtime).toBeInstanceOf(z.ZodArray);
     expect(compiled).toBe("z.array(reference('tags'))");
     expect(() => runtime.parse(['tag1', 'tag2'])).not.toThrow();
     expect(() => runtime.parse('invalid')).toThrow();
@@ -53,7 +53,7 @@ describe('field-relation.transform', () => {
     const { compiled } = transformRelationField(field);
     const runtime = parseShape(compiled, { z, reference });
 
-    expect(runtime._def.typeName).toBe(z.ZodFirstPartyTypeKind.ZodArray);
+    expect(runtime).toBeInstanceOf(z.ZodArray);
     expect(compiled).toBe("z.array(reference('categories'))");
     expect(() => runtime.parse(['cat1', 'cat2'])).not.toThrow();
   });
