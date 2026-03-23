@@ -47,7 +47,9 @@ window.handleLoad = () => {
 window.handleClick = event => {
   event.preventDefault();
   const { dataset } = event.target as HTMLElement;
-  if (!dataset.example) return;
+  if (!dataset.example) {
+    return;
+  }
   window.loadExample(dataset.example);
 };
 
@@ -55,13 +57,15 @@ window.handleClick = event => {
 window.handleInput = async event => {
   const config = window.updateInput(event);
   const { collections = [] } = (await parseConfig(config)) ?? {};
-  if (!collections.length) return window.clearPreview();
+  if (!collections.length) {
+    return window.clearPreview();
+  }
 
   const schemas = await Promise.all(
     collections.map(async collection => {
       const { compiled: cptime } = transformCollection(collection);
       return [collection.name, await formatCode(cptime, undefined, { printWidth: 50 })];
-    }),
+    })
   );
   window.updatePreview(JSON.stringify(collections, null, 2), Object.fromEntries(schemas));
 };
@@ -91,7 +95,7 @@ window.initExamples = async () => {
       ({ href, name }) => `
         <button data-example="${href}" onclick="window.handleClick(event)">
           ${name} example
-        </button>`,
+        </button>`
     )
     .join('');
 };
@@ -119,7 +123,7 @@ window.updatePreview = (config, schemas) => {
   schemaPreview.innerHTML = Object.entries(schemas)
     .map(
       ([name, schema]) =>
-        `<div data-label="${name}"><code>${hljs.highlight(schema, { language: 'ts' }).value}</code></div>`,
+        `<div data-label="${name}"><code>${hljs.highlight(schema, { language: 'ts' }).value}</code></div>`
     )
     .join('\n\n');
 };
@@ -149,7 +153,9 @@ window.reflectToUrl = async (config, param = 'c') => {
 window.initFromUrl = async (param = 'c') => {
   const url = new URL(location.href);
   const compressed = url.searchParams.get(param);
-  if (!compressed) return;
+  if (!compressed) {
+    return;
+  }
 
   const config = await decompress(compressed, 'gzip');
   window.updateExample(config);

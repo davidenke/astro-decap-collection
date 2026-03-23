@@ -62,7 +62,9 @@ export function applyDefaultValue(field: Decap.CmsField, result: TransformResult
 export function applyDescription(field: Decap.CmsField, result: TransformResult): TransformResult {
   // derive potential description
   const description = field.hint ?? field.label ?? field.name;
-  if (description === undefined) return result;
+  if (description === undefined) {
+    return result;
+  }
 
   // set a description
   return {
@@ -105,7 +107,9 @@ export function transformCollection(collection: Decap.CmsCollection): TransformR
       return transformObjectField(field);
     });
     // single file collection is just the result
-    if (results.length === 1) return results[0];
+    if (results.length === 1) {
+      return results[0];
+    }
     // multiple file collection is a union of all results
     return {
       compiled: `z.union([${results.map(({ compiled: cptime }) => cptime).join(', ')}])`,

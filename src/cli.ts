@@ -22,6 +22,7 @@ enum ERROR {
 
 // check for required arguments
 function fail(message: string, exitCode = 1) {
+  // eslint-disable-next-line no-console
   console.error(message);
   exit(exitCode);
 }
@@ -31,7 +32,7 @@ function tryOrFail<T>(fn: () => T, error: ERROR, exitCode: false | number = 1): 
     return fn();
   } catch (_) {
     fail(error);
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+
     exitCode && exit(1);
     return undefined as never;
   }
@@ -42,7 +43,7 @@ export async function loadAndTransformCollections(
   from: string,
   to: string,
   naming = 'config.%%name%%.ts',
-  isUpdate = false,
+  isUpdate = false
 ) {
   const config = await tryOrFail(() => loadDecapConfig(from), ERROR.PARSING_FAILED);
   const { collections = [] } = config ?? {};
@@ -61,8 +62,12 @@ export async function loadAndTransformCollections(
       const pretty = await tryOrFail(() => formatCode(raw, 'typescript'), ERROR.FORMATTING_FAILED);
 
       // prepare folder if non-existent, remove existing and write file
-      if (!existsSync(to)) await mkdir(to, { recursive: true });
-      if (existsSync(path)) await rm(path);
+      if (!existsSync(to)) {
+        await mkdir(to, { recursive: true });
+      }
+      if (existsSync(path)) {
+        await rm(path);
+      }
       await tryOrFail(() => writeFile(path, pretty, 'utf-8'), ERROR.WRITING_FAILED);
 
       // inform user
@@ -73,8 +78,9 @@ export async function loadAndTransformCollections(
       const chars = before.length + dots.length;
       const shortPath = `${dots}${path.substring(path.length - columns + chars)}`;
       const message = `${before}${path.length < columns - chars ? path : shortPath}`;
+      // eslint-disable-next-line no-console
       console.info(message);
-    }),
+    })
   );
 }
 
@@ -93,8 +99,12 @@ async function run() {
   const input = [...positionals, config].filter(Boolean) as string[];
 
   // everything there?
-  if (!input.length) return fail(ERROR.MISSING_CONFIG);
-  if (!target) return fail(ERROR.MISSING_TARGET);
+  if (!input.length) {
+    return fail(ERROR.MISSING_CONFIG);
+  }
+  if (!target) {
+    return fail(ERROR.MISSING_TARGET);
+  }
 
   // as the config path can be a glob pattern, which is not
   // extended by all shells; so we use fast-glob here
@@ -109,6 +119,7 @@ async function run() {
     const abort = new AbortController();
     const { signal } = abort;
     process.on('SIGINT', () => abort.abort());
+    // eslint-disable-next-line no-console
     console.info('> Watching for changes ...');
 
     // watch for changes
@@ -123,7 +134,9 @@ async function run() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         // throw error if not aborted
-        if (error?.name === 'AbortError') exit(0);
+        if (error?.name === 'AbortError') {
+          exit(0);
+        }
         throw error;
       }
     });

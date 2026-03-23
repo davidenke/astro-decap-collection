@@ -1,5 +1,5 @@
 import type { CmsField, CmsFieldRelation } from 'decap-cms-core';
-import * as z from 'zod/v3';
+import * as z from 'zod';
 
 import { transformRelationField } from './field-relation.transform.js';
 

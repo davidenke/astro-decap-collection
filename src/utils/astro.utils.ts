@@ -4,7 +4,7 @@
 import type { BaseSchema, defineCollection } from 'astro:content';
 
 export function prepareSchema<S extends BaseSchema>(
-  schema: S,
+  schema: S
 ): ReturnType<typeof defineCollection> {
   return { type: 'content', schema };
 }

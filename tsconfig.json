@@ -5,16 +5,13 @@
     "esModuleInterop": true,
     "isolatedModules": false,
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
+    "rootDir": ".",
     "skipLibCheck": true,
     "strict": true,
     "target": "ESNext",
+    "types": ["node", "jest"],
     "useDefineForClassFields": true
-  },
-  "ts-node": {
-    "experimentalSpecifierResolution": "node",
-    "transpileOnly": true,
-    "esm": true
   }
 }

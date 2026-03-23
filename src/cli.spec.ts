@@ -3,7 +3,7 @@ import { rm } from 'node:fs/promises';
 import { promisify } from 'node:util';
 
 const exec = promisify(_exec);
-const cmd = 'node --loader ts-node/esm src/cli.ts';
+const cmd = 'node --import tsx/esm src/cli.ts';
 
 afterEach(async () => await rm('tmp', { recursive: true, force: true }));
 
@@ -20,7 +20,7 @@ describe('cli', () => {
 
   it('allows multiple config paths', async () => {
     const { stdout } = await exec(
-      `${cmd} -t tmp public/examples/blog.yml public/examples/relation.yml`,
+      `${cmd} -t tmp public/examples/blog.yml public/examples/relation.yml`
     );
     expect(stdout).toEqual(expect.stringContaining('> blog schema written to'));
     expect(stdout).toEqual(expect.stringContaining('> categories schema written to'));

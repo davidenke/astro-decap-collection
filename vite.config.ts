@@ -42,7 +42,7 @@ export default defineConfig(async () => ({
       readdirSync('public/examples').map(file => ({
         href: `examples/${file}`,
         name: file.replace(/\.yml$/, ''),
-      })),
+      }))
     ),
   },
 }));

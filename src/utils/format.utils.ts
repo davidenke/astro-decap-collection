@@ -6,6 +6,7 @@ export async function loadPrettier(): Promise<typeof Prettier | undefined> {
   try {
     return await import('prettier');
   } catch {
+    // eslint-disable-next-line no-console
     console.warn('Prettier not found. Will write files without formatting.');
     return undefined;
   }
@@ -15,10 +16,12 @@ export async function loadPrettier(): Promise<typeof Prettier | undefined> {
 export async function formatCode(
   code: string,
   target?: string,
-  options?: Prettier.Options,
+  options?: Prettier.Options
 ): Promise<string> {
   const prettier = await loadPrettier();
-  if (!prettier) return code;
+  if (!prettier) {
+    return code;
+  }
   const defaults = (target && (await prettier.resolveConfig?.(target))) ?? {};
   const imports = await Promise.all([
     import('prettier/plugins/estree'),

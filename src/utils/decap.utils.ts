@@ -46,12 +46,13 @@ namespace DecapConfigUtils {
 
   function setSnakeCaseConfig(field: CmsField): CmsField {
     const deprecatedKeys = Object.keys(WIDGET_KEY_MAP).filter(
-      camel => camel in field,
+      camel => camel in field
     ) as (keyof typeof WIDGET_KEY_MAP)[];
     const snakeValues = deprecatedKeys.map(camel => {
       const snake = WIDGET_KEY_MAP[camel];
+      // eslint-disable-next-line no-console
       console.warn(
-        `Field ${field.name} is using a deprecated configuration '${camel}'. Please use '${snake}'`,
+        `Field ${field.name} is using a deprecated configuration '${camel}'. Please use '${snake}'`
       );
       return { [snake]: field[camel as keyof CmsField] };
     });
@@ -68,7 +69,7 @@ namespace DecapConfigUtils {
 
   function traverseFieldsJS(
     fields: CmsField[],
-    updater: (field: CmsField) => CmsField,
+    updater: (field: CmsField) => CmsField
   ): CmsField[] {
     return fields.map(field => {
       const newField = updater(field);
@@ -102,8 +103,9 @@ namespace DecapConfigUtils {
       if (normalizedCollection.sortableFields) {
         const { sortableFields, ...rest } = normalizedCollection;
         normalizedCollection = { ...rest, sortable_fields: sortableFields };
+        // eslint-disable-next-line no-console
         console.warn(
-          `Collection ${collection.name} is using a deprecated configuration 'sortableFields'. Please use 'sortable_fields'`,
+          `Collection ${collection.name} is using a deprecated configuration 'sortableFields'. Please use 'sortable_fields'`
         );
       }
       return normalizedCollection;
@@ -168,6 +170,7 @@ export async function parseConfig(ymlData: string): Promise<CmsConfig | undefine
   try {
     return DecapConfigUtils.normalizeConfig(DecapConfigUtils.parseConfig(ymlData));
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.warn('Problems parsing Decap CMS config:', error);
     return undefined;
   }
